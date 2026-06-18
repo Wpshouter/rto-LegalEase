@@ -15,6 +15,7 @@ import {
     Mail,
     Scale
 } from 'lucide-react';
+import { authClient } from '@/lib/auth-client';
 
 const SigninForm = () => {
 
@@ -28,10 +29,27 @@ const SigninForm = () => {
         e.preventDefault();
 
         console.log(formData);
-
+        const { data, error } = await authClient.signIn.email({
+        /**
+         * The user email
+         */
+        ...formData,
+        /**
+         * A URL to redirect to after the user verifies their email (optional)
+         */
+        callbackURL: "/dashboard",
+        /**
+         * remember the user session after the browser is closed. 
+         * @default true
+         */
+        rememberMe: false
+}, {
+    //callbacks
+})
         // Better Auth Login
         // auth.signIn.email()
         // Redirect based on role
+        console.log(data, error);
     };
 
     return (
@@ -76,29 +94,27 @@ const SigninForm = () => {
                 >
 
                     <Input className={`w-full`}
+                        required
                         type="email"
                         label="Email Address"
                         placeholder="john@example.com"
-                    
-                        value={formData.email}
-                        onValueChange={(value) =>
+                        onChange={(e) =>
                             setFormData(prev => ({
                                 ...prev,
-                                email: value,
+                                email: e.target.value,
                             }))
                         }
                     />
 
                     <Input className={`w-full`}
+                    required
                         type="password"
                         label="Password"
                         placeholder="Enter password"
-                     
-                        value={formData.password}
-                        onValueChange={(value) =>
+                        onChange={(e) =>
                             setFormData(prev => ({
                                 ...prev,
-                                password: value,
+                                password:e.target.value,
                             }))
                         }
                     />

@@ -2,6 +2,7 @@ import { Geist, Geist_Mono ,Inter, Playfair_Display } from "next/font/google";
 import "./globals.css";
 import LegalNav from "@/componenet/shared/LegalNav";
 import Footer from "@/componenet/shared/Footer";
+import { ToastContainer } from "react-toastify";
 
 
 const geistSans = Geist({
@@ -38,7 +39,7 @@ export default function RootLayout({ children }) {
       className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
     >
       <body className={`${inter.variable} ${playfair.variable} min-h-full flex flex-col`}> <LegalNav />
-      {children}<Footer/></body>
+      {children}<Footer/>  <ToastContainer /></body>
 
     </html>
   );

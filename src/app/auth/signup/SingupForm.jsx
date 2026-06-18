@@ -16,8 +16,10 @@ import {
     User
 } from 'lucide-react';
 import { authClient } from '@/lib/auth-client';
+import { toast } from 'react-toastify';
+import { showToast } from '@/action/simpleFunctions';
 
-const SignupForm = () => {
+const SignupForm =  () => {
 
 
     const [role, setRole] = useState("client");
@@ -43,7 +45,13 @@ const SignupForm = () => {
         formData.role = role
         console.log(formData);
         if(formData.password != formData.confirmPassword){
-            alert('Password Do Not Match');
+            //alert('Password Do Not Match');
+            showToast('Password Do Not Match', 'error');
+            return false;
+        }
+        if(formData.name == '' || formData.email == '' ){
+             //alert('Password Do Not Match');
+            showToast('Please Enter All Information', 'error');
             return false;
         }
         const { data, error } = await authClient.signUp.email({
