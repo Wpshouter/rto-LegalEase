@@ -3,12 +3,15 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Button, Input } from "@heroui/react";
-import { Search, Scale, Menu } from "lucide-react";
+import { Search, Scale, Menu, User } from "lucide-react";
+import { authClient } from "@/lib/auth-client";
+import { SlLogout } from "react-icons/sl";
 
 const LegalNav = () => {
 
   const pathname = usePathname();
-
+  const { data: session, isPending } =  authClient.useSession();
+  // console.log('session ', session.data.user);
   const links = [
     { label: "Home", href: "/" },
     { label: "Browse Lawyers", href: "/lawyers" },
@@ -66,22 +69,36 @@ const LegalNav = () => {
 
         {/* Actions */}
         <div className="flex items-center gap-3">
-            <Link href="/auth/signin">
-          <Button variant="light">
-            Login
-          </Button>
-          </Link>
+          
+            { isPending ? <span className="loading loading-spinner text-success"></span> :
+                        (session) ? 
+                        <div className='flex gap-3 items-center'>   
+                        <button onClick={async () => {  await authClient.signOut() }} className='btn bg-blue-500 text-white shadow-sm border-1'>
+                        <SlLogout className='text-[20px]'/>
+                            Logout
+                        </button>
+                        <Link href=""><p><User/></p></Link>
+                    </div> : 
+            <>
+                <Link href="/auth/signin">
+              <Button variant="light">
+                Login
+              </Button>
+              </Link>
 
-            <Link href="/auth/signup">
-               <Button
-            className="bg-amber-500 text-white"
-          >
-            Join as Lawyer
-          </Button>
-            </Link>
-       
+                <Link href="/auth/signup">
+                  <Button
+                className="bg-amber-500 text-white"
+              >
+                Join as Lawyer
+              </Button>
+                </Link>
+          
 
-          <Menu className="lg:hidden" />
+              <Menu className="lg:hidden" />
+         
+            </>
+          }
         </div>
       </div>
     </nav>

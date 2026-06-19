@@ -16,15 +16,17 @@ import {
     Scale
 } from 'lucide-react';
 import { authClient } from '@/lib/auth-client';
+import { redirect, useRouter } from "next/navigation";
+
 
 const SigninForm = () => {
-
+    const router = useRouter();
     const [formData, setFormData] = useState({
         email: '',
         password: '',
         remember: false,
     });
-
+ 
     const handleSubmit = async (e) => {
         e.preventDefault();
 
@@ -37,15 +39,33 @@ const SigninForm = () => {
         /**
          * A URL to redirect to after the user verifies their email (optional)
          */
-        callbackURL: "/dashboard",
+        //callbackURL: "/dashboard",
         /**
          * remember the user session after the browser is closed. 
          * @default true
          */
-        rememberMe: false
-}, {
-    //callbacks
-})
+        rememberMe: true
+},
+  {
+    onSuccess: (ctx) => {
+      const user = ctx.data?.user;
+
+      if (!user) {
+            redirect('/auth/signin');
+      }
+
+      if (user.role === "client") {
+            redirect('/');
+      } else {
+              redirect('/dashboard');
+      }
+    },
+
+    onError: (ctx) => {
+      alert(ctx.error.message);
+    },
+  }
+);
         // Better Auth Login
         // auth.signIn.email()
         // Redirect based on role
