@@ -7,7 +7,7 @@ import {useEffect, useState} from "react";
 export function PaginationWithSummary({totalPages, itemsPerPage, totalItems}) {
             const router = useRouter();
             const searchParams = useSearchParams();
-       const [page, setPage] = useState( searchParams.get("page") || 1);
+       const [page, setPage] = useState( Number(searchParams.get("page")) || 1);
         useEffect(() => {
        
                const params =
@@ -63,11 +63,11 @@ export function PaginationWithSummary({totalPages, itemsPerPage, totalItems}) {
         </Pagination.Item>
         {getPageNumbers().map((p, i) =>
           p === "ellipsis" ? (
-            <Pagination.Item key={`ellipsis-${i}`}>
+            <Pagination.Item key={`ellipsis-${p+i}`}>
               <Pagination.Ellipsis />
             </Pagination.Item>
           ) : (
-            <Pagination.Item key={p}>
+            <Pagination.Item key={p+i}>
               <Pagination.Link isActive={p === page} onPress={() => setPage(p)}>
                 {p}
               </Pagination.Link>
