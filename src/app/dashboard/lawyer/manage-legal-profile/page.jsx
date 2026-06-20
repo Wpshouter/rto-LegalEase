@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import {
   Scale,
   Upload,
@@ -22,8 +22,8 @@ export default  function Page() {
    const [saving, setSaving] = useState(false);
    const [errors, setErrors] = useState({});
    const existingProfile =  getUserProfileLaywer(session?.user?.id);
-   console.log('user if rom', session?.user?.id);
-   console.log('exisitngProfile', existingProfile);
+   //console.log('user if rom', session?.user?.id);
+   //console.log('exisitngProfile', existingProfile);
 const [formData, setFormData] = useState({
   name: "",
   specializations: [],
@@ -69,13 +69,55 @@ const legalServices = [
     },
   ];
 
-  const handleChange = (field, value) => {
-    setFormData((prev) => ({
-      ...prev,
-      [field]: value,
-    }));
-  };
-    let imageUrl = "";
+
+  //state for getting exiting profile data
+  const [exisitngProfile, setProfile] =
+  useState(null);
+
+useEffect(() => {
+
+  if (!session?.user?.id)
+    return;
+
+  const loadProfile =
+    async () => {
+
+      const data =
+        await getUserProfileLaywer(
+          session.user.id
+        );
+
+      setProfile(data);
+       setProfile(data);
+
+    setFormData({
+      name: data?.name || "",
+      specializations:
+        data?.specializations || [],
+      fee: data?.fee || "",
+      bio: data?.bio || "",
+      image: null,
+      imagePreview: "",
+      imageUrl:
+        data?.imageUrl || "",
+    });
+    };
+
+  loadProfile();
+
+}, [session]);
+//console.log('profile', exisitngProfile);
+//console.log('formdata', formData);
+ const handleChange = (field, value) => {
+  setFormData((prev) => ({
+    ...prev,
+    [field]:
+      field === "fee"
+        ? Number(value)
+        : value,
+  }));
+};
+  
   const handleImage = async(e) => {
     const file = e.target.files?.[0];
 
@@ -87,18 +129,11 @@ const legalServices = [
       imagePreview: URL.createObjectURL(file),
     }));
     //imagebbupload
-        console.log(formData);
+       // console.log(formData);
   
 
-    if (formData.image) {
-      imageUrl = await uploadToImgBB(
-        formData.image
-      );
-      
-    }
-
-    console.log(imageUrl, 'asdasdsaimage');
   };
+  
   const validateForm = () => {
   const newErrors = {};
 
@@ -119,7 +154,7 @@ const legalServices = [
     newErrors.bio = "Professional bio is required";
   }
 
-  if (!formData.image) {
+  if (!formData.image && !formData.imageUrl) {
     newErrors.image = "Profile image is required";
   }
 
@@ -133,8 +168,25 @@ const legalServices = [
      if (!validateForm()) {
     return;
   }
+    let imageUrl = "";
       setSaving(true);
     const {image, imagePreview, ...filteredformdata} = formData;
+    
+    if (formData.image) {
+      imageUrl = await uploadToImgBB(
+        formData.image
+      );
+      
+    }
+    else if(formData.imageUrl){
+      imageUrl = formData.imageUrl;
+    }
+    else{
+
+    }
+
+    //console.log(imageUrl, 'asdasdsaimage');
+
     const payload = {
       ...filteredformdata,
       imageUrl,
@@ -146,10 +198,10 @@ const legalServices = [
     }
     console.log('payload', payload);
     const res = await createProfile(payload);
-    console.log(res);
+    console.log(res, "response from profile creation");
       setSaving(false);
-    if(res.insertedId){
-      showToast('Legal Profile Created', 'success');
+    if(res.acknowledged){
+      showToast('Legal Profile Updated', 'success');
     }
     else{
       showToast('Something Went Wrong', 'error');
@@ -378,54 +430,24 @@ const legalServices = [
                 Live Preview
               </h2>
 
-              <div className="avatar mx-auto mt-4">
-                <div className="w-28 rounded-full ring ring-warning ring-offset-base-100 ring-offset-2">
-                  <img
-                    src={
-                      formData.imagePreview ||
-                      "https://placehold.co/300x300"
-                    }
-                    alt="preview"
-                  />
-                </div>
-              </div>
+             <LawyerCard lawyer={formData} />
 
-              <h3 className="font-bold text-xl mt-4">
-                {formData.name ||
-                  "Lawyer Name"}
-              </h3>
+      
 
-            <div className="flex flex-wrap justify-center gap-2 mt-3">
-  {formData.specializations.length > 0 ? (
-    formData.specializations.map((item) => (
-      <div
-        key={item}
-        className="badge badge-warning"
-      >
-        {item}
-      </div>
-    ))
-  ) : (
-    <div className="badge badge-warning">
-      No Services Selected
-    </div>
-  )}
-</div>
 
-              <div className="badge badge-outline mt-3 gap-2">
-                <BriefcaseBusiness size={14} />
-                $
-                {formData.fee || "0"} Consultation
-              </div>
 
-              <p className="text-base-content/70 mt-5">
-                {formData.bio ||
+              {
+                formData.bio == '' &&   <p className="text-base-content/70 mt-5">
+                {
                   "Your profile preview will appear here."}
               </p>
+              }
+            
             </div>
           </div>
+          
         </div>
-        <LawyerCard lawyer={formData} />
+       
       </div>
 
       {/* Services */}

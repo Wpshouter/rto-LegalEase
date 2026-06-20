@@ -9,13 +9,15 @@ export default function LawyerCard({ lawyer }) {
       href={`/lawyers/${lawyer._id}`}
       className="group"
     >
-      <div className="card bg-base-200 border border-warning/20 hover:border-warning/50 shadow-lg hover:shadow-2xl transition-all duration-300 overflow-hidden h-full">
+      <div className="card p-0 bg-base-200 border border-warning/20 hover:border-warning/50 shadow-lg hover:shadow-2xl transition-all duration-300 overflow-hidden h-full">
 
         {/* Cover */}
         <div className="relative">
-
+          {
+            //console.log('lawyer image url', lawyer.imageUrl)
+          }
           <img
-            src={lawyer.imageUrl}
+            src={lawyer.imageUrl || null }
             alt={lawyer.name}
             className="h-64 w-full object-cover group-hover:scale-105 transition duration-500"
           />
@@ -36,7 +38,7 @@ export default function LawyerCard({ lawyer }) {
           </div>
 
           {/* Gradient */}
-          <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/10 to-transparent" />
+          {/* <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/10 to-transparent" /> */}
 
           {/* Name */}
           <div className="absolute bottom-4 left-4 text-white">
