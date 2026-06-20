@@ -9,17 +9,42 @@ import {
   Pencil,
   Trash2,
 } from "lucide-react";
+import { showToast, uploadToImgBB } from "@/action/simpleFunctions";
+import { createProfile } from "@/action/apiProfile";
+import { authClient } from "@/lib/auth-client";
+import FormLoader from "@/componenet/shared/FormLoader";
+import LawyerCard from "@/componenet/shared/LawyerCard";
+import { fetchReQuest, getUserProfileLaywer } from "@/data/dataFetch";
 
-export default function Page() {
-  const [formData, setFormData] = useState({
-    name: "",
-    specialization: "",
-    fee: "",
-    bio: "",
-    image: null,
-    imagePreview: "",
-  });
 
+export default  function Page() {
+   const { data: session, isPending } =  authClient.useSession();
+   const [saving, setSaving] = useState(false);
+   const [errors, setErrors] = useState({});
+   const existingProfile =  getUserProfileLaywer(session?.user?.id);
+   console.log('user if rom', session?.user?.id);
+   console.log('exisitngProfile', existingProfile);
+const [formData, setFormData] = useState({
+  name: "",
+  specializations: [],
+  fee: 0,
+  bio: "",
+  image: null,
+  imagePreview: "",
+  imageUrl: ""
+});
+const legalServices = [
+  "Criminal Law",
+  "Family Law",
+  "Corporate Law",
+  "Property Law",
+  "Immigration Law",
+  "Tax Law",
+  "Employment Law",
+  "Contract Review",
+  "Legal Consultation",
+  "Business Registration",
+];
   const services = [
     {
       id: 1,
@@ -50,8 +75,8 @@ export default function Page() {
       [field]: value,
     }));
   };
-
-  const handleImage = (e) => {
+    let imageUrl = "";
+  const handleImage = async(e) => {
     const file = e.target.files?.[0];
 
     if (!file) return;
@@ -61,13 +86,74 @@ export default function Page() {
       image: file,
       imagePreview: URL.createObjectURL(file),
     }));
+    //imagebbupload
+        console.log(formData);
+  
+
+    if (formData.image) {
+      imageUrl = await uploadToImgBB(
+        formData.image
+      );
+      
+    }
+
+    console.log(imageUrl, 'asdasdsaimage');
   };
+  const validateForm = () => {
+  const newErrors = {};
 
+  if (!formData.name.trim()) {
+    newErrors.name = "Full name is required";
+  }
+
+  if (!formData.specializations.length) {
+    newErrors.specializations =
+      "Select at least one specialization";
+  }
+
+  if (!formData.fee) {
+    newErrors.fee = "Consultation fee is required";
+  }
+
+  if (!formData.bio.trim()) {
+    newErrors.bio = "Professional bio is required";
+  }
+
+  if (!formData.image) {
+    newErrors.image = "Profile image is required";
+  }
+
+  setErrors(newErrors);
+
+  return Object.keys(newErrors).length === 0;
+};
   const handleSubmit = async (e) => {
+    
     e.preventDefault();
+     if (!validateForm()) {
+    return;
+  }
+      setSaving(true);
+    const {image, imagePreview, ...filteredformdata} = formData;
+    const payload = {
+      ...filteredformdata,
+      imageUrl,
+      lawyer_id : session?.user?.id,
+      status : 'active',
+      public : true,
+      createdAt: new Date()
 
-    console.log(formData);
-
+    }
+    console.log('payload', payload);
+    const res = await createProfile(payload);
+    console.log(res);
+      setSaving(false);
+    if(res.insertedId){
+      showToast('Legal Profile Created', 'success');
+    }
+    else{
+      showToast('Something Went Wrong', 'error');
+    }
     // imgBB upload
     // save profile
   };
@@ -75,7 +161,7 @@ export default function Page() {
   return (
     <div className="space-y-8">
       {/* Header */}
-
+        {saving && <FormLoader />}
       <div className="card bg-base-200 border border-warning/20 shadow-xl">
         <div className="card-body">
           <div className="flex items-center gap-4">
@@ -123,70 +209,74 @@ export default function Page() {
                     </span>
                   </label>
 
-                  <input
-                    type="text"
-                    className="input input-bordered w-full"
-                    placeholder="John Smith"
-                    value={formData.name}
-                    onChange={(e) =>
-                      handleChange(
-                        "name",
-                        e.target.value
-                      )
-                    }
-                  />
+                <input
+    type="text"
+    className={`input input-bordered w-full ${
+      errors.name ? "input-error" : ""
+    }`}
+    placeholder="John Smith"
+    value={formData.name}
+    onChange={(e) =>
+      handleChange("name", e.target.value)
+    }
+  />
+
+  {errors.name && (
+    <p className="text-error text-sm mt-1">
+      {errors.name}
+    </p>
+  )}
                 </div>
 
                 <div>
-                  <label className="label">
-                    <span className="label-text">
-                      Specialization
-                    </span>
-                  </label>
+  <label className="label">
+    <span className="label-text">
+      Legal Services
+    </span>
+  </label>
 
-                  <select
-                    className="select select-bordered w-full"
-                    value={formData.specialization}
-                    onChange={(e) =>
-                      handleChange(
-                        "specialization",
-                        e.target.value
-                      )
-                    }
-                  >
-                    <option value="">
-                      Select specialization
-                    </option>
+  <div className="grid grid-cols-2 gap-3">
+    {legalServices.map((service) => (
+      <label
+        key={service}
+        className="label cursor-pointer justify-start gap-3 border border-base-300 rounded-lg p-3 hover:bg-base-300"
+      >
+        <input
+          type="checkbox"
+          className="checkbox checkbox-warning"
+          checked={formData.specializations.includes(service)}
+          onChange={(e) => {
+            if (e.target.checked) {
+              setFormData((prev) => ({
+                ...prev,
+                specializations: [
+                  ...prev.specializations,
+                  service,
+                ],
+              }));
+            } else {
+              setFormData((prev) => ({
+                ...prev,
+                specializations:
+                  prev.specializations.filter(
+                    (item) => item !== service
+                  ),
+              }));
+            }
+          }}
+        />
 
-                    <option>
-                      Criminal Law
-                    </option>
-
-                    <option>
-                      Family Law
-                    </option>
-
-                    <option>
-                      Corporate Law
-                    </option>
-
-                    <option>
-                      Property Law
-                    </option>
-
-                    <option>
-                      Immigration Law
-                    </option>
-
-                    <option>
-                      Tax Law
-                    </option>
-
-                    <option>
-                      Employment Law
-                    </option>
-                  </select>
-                </div>
+        <span>{service}</span>
+      </label>
+      
+    ))}
+                                           {errors.specializations && (
+    <p className="text-error text-sm mt-1">
+      {errors.specializations}
+    </p>
+      )}
+  </div>
+</div>
 
                 <div>
                   <label className="label">
@@ -210,7 +300,13 @@ export default function Page() {
                         )
                       }
                     />
+
                   </label>
+                                        {errors.fee && (
+    <p className="text-error text-sm mt-1">
+      {errors.fee}
+    </p>
+      )}
                 </div>
 
                 <div>
@@ -222,10 +318,17 @@ export default function Page() {
 
                   <input
                     type="file"
-                    className="file-input file-input-bordered w-full"
+                    className={`file-input file-input-bordered w-full ${
+      errors.image ? "input-error" : ""
+    }`}
                     accept="image/*"
                     onChange={handleImage}
                   />
+                                                       {errors.image && (
+    <p className="text-error text-sm mt-1">
+      {errors.image}
+    </p>
+      )}
                 </div>
 
                 <div>
@@ -236,7 +339,9 @@ export default function Page() {
                   </label>
 
                   <textarea
-                    className="textarea textarea-bordered h-40 w-full"
+                                       className={`textarea textarea-bordered h-40 w-full ${
+      errors.bio ? "input-error" : ""
+    }`}
                     placeholder="Describe your experience, achievements and expertise..."
                     value={formData.bio}
                     onChange={(e) =>
@@ -246,6 +351,11 @@ export default function Page() {
                       )
                     }
                   />
+                                                     {errors.bio && (
+    <p className="text-error text-sm mt-1">
+      {errors.bio}
+    </p>
+      )}
                 </div>
 
                 <button
@@ -285,10 +395,22 @@ export default function Page() {
                   "Lawyer Name"}
               </h3>
 
-              <div className="badge badge-warning badge-lg mt-2">
-                {formData.specialization ||
-                  "Specialization"}
-              </div>
+            <div className="flex flex-wrap justify-center gap-2 mt-3">
+  {formData.specializations.length > 0 ? (
+    formData.specializations.map((item) => (
+      <div
+        key={item}
+        className="badge badge-warning"
+      >
+        {item}
+      </div>
+    ))
+  ) : (
+    <div className="badge badge-warning">
+      No Services Selected
+    </div>
+  )}
+</div>
 
               <div className="badge badge-outline mt-3 gap-2">
                 <BriefcaseBusiness size={14} />
@@ -303,6 +425,7 @@ export default function Page() {
             </div>
           </div>
         </div>
+        <LawyerCard lawyer={formData} />
       </div>
 
       {/* Services */}

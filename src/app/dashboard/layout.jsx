@@ -3,6 +3,7 @@
 
 
 import DashboardSidebar from "@/componenet/dashboard/DashboardSidebar";
+import { getUserProfileLaywer } from "@/data/dataFetch";
 import { getSession } from "@/lib/user";
 
 export default async function Layout({
@@ -12,6 +13,8 @@ export default async function Layout({
   const session =
     await getSession();
     console.log('session from dash layout', session);
+    //     const existingProfile =  await getUserProfileLaywer(session?.id);
+    // console.log('exisitngProfile', existingProfile);
   return (
     <div className="drawer lg:drawer-open">
   
