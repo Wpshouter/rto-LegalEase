@@ -1,0 +1,272 @@
+'use client';
+import {
+  Scale,
+  DollarSign,
+  Calendar,
+  BadgeCheck,
+  BriefcaseBusiness,
+  MessageSquare,
+} from "lucide-react";
+
+export default function LawyerDetailsPage({ lawyer }) {
+
+  const joinedDate =
+    new Date(
+      lawyer.createdAt
+    ).toLocaleDateString();
+
+  return (
+    <div className="">
+
+      {/* HERO */}
+
+      <div className="card bg-base-200 border border-warning/20 shadow-2xl overflow-hidden">
+
+        <div className="grid lg:grid-cols-3 gap-0">
+
+          {/* IMAGE */}
+
+          <div className="relative h-[450px]">
+
+            <img
+              src={lawyer.imageUrl}
+              alt={lawyer.name}
+              className="w-full h-full object-cover"
+            />
+
+            <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent" />
+
+          </div>
+
+          {/* DETAILS */}
+
+          <div className="lg:col-span-2 p-8 lg:p-10 flex flex-col justify-center">
+
+            <div className="flex items-center gap-3 mb-4">
+
+              <div className="badge badge-success badge-lg">
+                Available
+              </div>
+
+              <div className="badge badge-warning badge-lg">
+                Verified Lawyer
+              </div>
+
+            </div>
+
+            <h1 className="text-4xl lg:text-5xl font-bold mb-4">
+              {lawyer.name}
+            </h1>
+
+            <div className="flex flex-wrap gap-2 mb-6">
+
+              {lawyer.specializations.map(
+                (spec) => (
+                  <div
+                    key={spec}
+                    className="badge badge-outline badge-warning p-4"
+                  >
+                    {spec}
+                  </div>
+                )
+              )}
+
+            </div>
+
+            <div className="grid md:grid-cols-3 gap-4 mb-8">
+
+              <div className="bg-base-100 rounded-2xl p-4">
+
+                <DollarSign
+                  className="text-warning mb-2"
+                  size={24}
+                />
+
+                <p className="text-sm opacity-70">
+                  Consultation Fee
+                </p>
+
+                <h3 className="text-2xl font-bold">
+                  ${lawyer.fee}
+                </h3>
+
+              </div>
+
+              <div className="bg-base-100 rounded-2xl p-4">
+
+                <Calendar
+                  className="text-warning mb-2"
+                  size={24}
+                />
+
+                <p className="text-sm opacity-70">
+                  Joined
+                </p>
+
+                <h3 className="font-semibold">
+                  {joinedDate}
+                </h3>
+
+              </div>
+
+              <div className="bg-base-100 rounded-2xl p-4">
+
+                <BriefcaseBusiness
+                  className="text-warning mb-2"
+                  size={24}
+                />
+
+                <p className="text-sm opacity-70">
+                  Status
+                </p>
+
+                <h3 className="font-semibold capitalize">
+                  {lawyer.status}
+                </h3>
+
+              </div>
+
+            </div>
+
+            <button
+              onClick={() =>
+                document
+                  .getElementById("hire_modal")
+                  .showModal()
+              }
+              className="btn btn-warning btn-lg max-w-xs"
+            >
+              <Scale size={18} />
+              Hire Lawyer
+            </button>
+
+          </div>
+
+        </div>
+
+      </div>
+
+      {/* BIO */}
+
+      <div className="card bg-base-200 border border-warning/20 shadow-xl mt-8">
+
+        <div className="card-body">
+
+          <div className="flex items-center gap-3 mb-3">
+
+            <BadgeCheck
+              className="text-warning"
+            />
+
+            <h2 className="text-2xl font-bold">
+              Professional Summary
+            </h2>
+
+          </div>
+
+          <p className="leading-8 text-base-content/80 whitespace-pre-line">
+            {lawyer.bio}
+          </p>
+
+        </div>
+
+      </div>
+
+      {/* COMMENTS */}
+
+      <div className="card bg-base-200 border border-warning/20 shadow-xl mt-8">
+
+        <div className="card-body">
+
+          <div className="flex items-center gap-3 mb-6">
+
+            <MessageSquare
+              className="text-warning"
+            />
+
+            <h2 className="text-2xl font-bold">
+              Client Reviews
+            </h2>
+
+          </div>
+
+          <div className="text-center py-12 opacity-60">
+
+            No reviews yet.
+
+          </div>
+
+        </div>
+
+      </div>
+
+      {/* HIRE MODAL */}
+
+      <dialog
+        id="hire_modal"
+        className="modal"
+      >
+
+        <div className="modal-box bg-base-200">
+
+          <h3 className="font-bold text-2xl mb-3">
+
+            Confirm Hiring
+
+          </h3>
+
+          <p className="mb-4">
+
+            You are about to hire
+            <span className="font-bold">
+              {" "}
+              {lawyer.name}
+            </span>
+
+            {" "}for a consultation fee of
+
+            <span className="font-bold text-warning">
+              {" "} ${lawyer.fee}
+            </span>
+
+          </p>
+
+          <div className="modal-action">
+
+            <form method="dialog">
+
+              <button className="btn">
+                Cancel
+              </button>
+
+            </form>
+
+          
+                <form action="/api/checkout_sessions" method="POST">
+                <input type="hidden" name="lawyerId" value={lawyer._id} />
+                <input type="hidden" name="lawyerName" value={lawyer.name} />
+                <input type="hidden" name="fee" value={lawyer.fee} />
+      <section>
+      <button className="btn btn-warning">
+
+              Proceed to Payment
+
+            </button>
+      </section>
+    </form>
+    {/*
+    
+                lawyerId: lawyer.lawyer_id,
+        lawyerName: lawyer.name,
+        fee: lawyer.fee,
+
+    */}
+          </div>
+
+        </div>
+
+      </dialog>
+
+    </div>
+  );
+}

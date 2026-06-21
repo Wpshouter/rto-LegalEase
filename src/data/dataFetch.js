@@ -13,10 +13,15 @@ export const getUserProfileLaywer = async(laywer_id) => {
    console.log(`${process.env.NEXT_PUBLIC_BACKEND_URI}/api/get-legal-profile/${laywer_id}`);
 
     const existingProfile = await fetchReQuest(`api/get-legal-profile/${laywer_id}`);
-    return existingProfile;
+    return existingProfile || [];
 }
 export const getLawyers = async(query='') => {
     const lawyers = await fetchReQuest(`api/lawyer?${query}`);
     console.log(  'lawyers from fetch', lawyers);
     return lawyers || [];
+}
+export const getListingLawyers = async(laywer_id) => {
+    const lawyer = await fetchReQuest(`api/lawyer/${laywer_id}`);
+    console.log(lawyer, "lawyer from fetch new fetch");
+    return lawyer  || [];
 }
