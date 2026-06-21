@@ -91,7 +91,7 @@ const Filter = () => {
                     {/* Specialization */}
 
                     <select
-                        className="select select-bordered"
+                        className="select select-bordered justify-center"
                         value={specialization}
                         onChange={(e) =>
                             setSpecialization(
@@ -137,7 +137,7 @@ const Filter = () => {
                     {/* Sort */}
 
                     <select
-                        className="select select-bordered"
+                        className="select select-bordered justify-center"
                         value={sort}
                         onChange={(e) =>
                             setSort(
