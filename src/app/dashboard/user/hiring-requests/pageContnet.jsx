@@ -1,3 +1,4 @@
+import { FormateDateForis } from "@/action/simpleFunctions";
 import {
   Scale,
   Clock3,
@@ -6,43 +7,33 @@ import {
   MessageSquare,
 } from "lucide-react";
 
-export default function HiringRequestsPage() {
+export default function HiringRequestsPage({user, hiringRequests}) {
 
-  const requests = [
+/*
+[
     {
-      id: 1,
-      lawyer: "Eleanor Vance",
-      image:
-        "https://i.ibb.co/pjmzfFR5/nussbaum-law-IOvs-EAEjn-DE-unsplash.jpg",
-      specialization: "Tax Law",
-      fee: 699,
-      status: "accepted",
-      payment: "paid",
-      date: "Jun 21, 2026",
+        "_id": "6a3984c487c9f54a7c2fc7c4",
+        "lawyerId": "6a369816dfe529732b664825",
+        "lawyerName": "Eleanor Vance",
+        "fee": 556,
+        "requested_by": "6a3984b4f2853813c1b6311a",
+        "status": "pending",
+        "created_at": "2026-06-22T18:53:56.090Z",
+        "payment": null
     },
     {
-      id: 2,
-      lawyer: "Emily Smith",
-      image:
-        "https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=300",
-      specialization: "Criminal Law",
-      fee: 386,
-      status: "pending",
-      payment: "paid",
-      date: "Jun 20, 2026",
-    },
-    {
-      id: 3,
-      lawyer: "William Taylor",
-      image:
-        "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=300",
-      specialization: "Family Law",
-      fee: 343,
-      status: "completed",
-      payment: "paid",
-      date: "Jun 18, 2026",
-    },
-  ];
+        "_id": "6a3984d087c9f54a7c2fc7c5",
+        "lawyerId": "6a365dc132b7a9f0eb328a34",
+        "lawyerName": "Emma Thomas",
+        "fee": 110,
+        "requested_by": "6a3984b4f2853813c1b6311a",
+        "status": "pending",
+        "created_at": "2026-06-22T18:54:08.898Z",
+        "payment": null
+    }
+]
+    */
+ 
 
   const getStatusBadge = (status) => {
     switch (status) {
@@ -54,19 +45,19 @@ export default function HiringRequestsPage() {
           </div>
         );
 
-      case "accepted":
+      case "approved":
         return (
-          <div className="badge badge-info gap-1">
+          <div className="badge badge-soft badge-info    gap-1">
             <CheckCircle2 size={12} />
-            Accepted
+            Approved
           </div>
         );
 
-      case "completed":
+      case "paid":
         return (
           <div className="badge badge-success gap-1">
             <CheckCircle2 size={12} />
-            Completed
+            Paid
           </div>
         );
 
@@ -146,7 +137,7 @@ export default function HiringRequestsPage() {
 
               <tbody>
 
-                {requests.map((request) => (
+                {hiringRequests.map((request) => (
 
                   <tr key={request.id}>
 
@@ -159,7 +150,7 @@ export default function HiringRequestsPage() {
                           <div className="w-14 rounded-full">
 
                             <img
-                              src={request.image}
+                              src={request.profile.imageUrl || null}
                               alt=""
                             />
 
@@ -170,11 +161,11 @@ export default function HiringRequestsPage() {
                         <div>
 
                           <div className="font-bold">
-                            {request.lawyer}
+                            {request.lawyerName}
                           </div>
 
                           <div className="text-sm opacity-70">
-                            {request.specialization}
+                            {/* {request.specialization} */}
                           </div>
 
                         </div>
@@ -192,7 +183,7 @@ export default function HiringRequestsPage() {
                     </td>
 
                     <td>
-                      {request.date}
+                      {FormateDateForis(request.created_at)}
                     </td>
 
                     <td>
@@ -202,32 +193,25 @@ export default function HiringRequestsPage() {
                     </td>
 
                     <td>
-
+                      {(request.payment) ? (
                       <div className="badge badge-success">
 
                         Paid
 
                       </div>
-
+                      ) : (
+                      <div className="badge badge-warning">Awaiting Lawyer Approval</div>)}
                     </td>
 
                     <td>
 
                       <div className="flex gap-2">
 
-                        <button className="btn btn-sm btn-outline">
+                        <button    disabled={request.status !== "approved"} className="btn btn-sm btn-outline">
 
                           <Eye size={16} />
 
-                          View
-
-                        </button>
-
-                        <button className="btn btn-sm btn-warning">
-
-                          <MessageSquare size={16} />
-
-                          Message
+                          Pay Now
 
                         </button>
 

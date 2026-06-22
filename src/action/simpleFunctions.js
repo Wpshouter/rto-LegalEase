@@ -49,3 +49,17 @@ export const uploadToImgBB = async (imageFile) => {
 
   return data.data.url;
 };
+export const FormateDateForis = async (dateString) => {
+ const formatted =
+  new Date(dateString).toLocaleString(
+    "en-US",
+    {
+      day: "numeric",
+      month: "short",
+      year: "numeric",
+      hour: "numeric",
+      minute: "2-digit",
+    }
+  );
+ return formatted;
+}

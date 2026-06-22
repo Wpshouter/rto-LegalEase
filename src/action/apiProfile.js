@@ -36,3 +36,8 @@ export const saveHiringRerequest = async (data) => {
     const res = await serverPost(`${process.env.NEXT_PUBLIC_BACKEND_URI}/api/hiring-request`, data);
     return res;
 }
+
+export const updateHiringRequestStatus = async (data) => {
+    const res = await serverPost(`${process.env.NEXT_PUBLIC_BACKEND_URI}/api/lawyer/approve-request`, data);
+    return res;
+}

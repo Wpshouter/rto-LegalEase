@@ -41,3 +41,9 @@ export const getHistingRequest = async(user_id) => {
     console.log(hiringRequest, "hiring request from fetch new fetch");
     return hiringRequest  || [];
 }
+export const gertHistingHirtoryLawyer = async(lawyer_id) => {
+    //http://localhost:5000/api/hiring-request/lawyer/6a369816dfe529732b664825
+    const hiringHistory = await securefetchReQuest(`api/hiring-request/lawyer/${lawyer_id}`);
+    console.log(hiringHistory, "hiring history from fetch new fetch");
+    return hiringHistory || [];
+}
