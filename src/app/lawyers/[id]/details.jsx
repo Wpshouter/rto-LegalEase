@@ -1,5 +1,6 @@
 'use client';
 import { saveHiringRerequest } from "@/action/apiProfile";
+import { showToast } from "@/action/simpleFunctions";
 import { authClient } from "@/lib/auth-client";
 import {
   Scale,
@@ -9,6 +10,7 @@ import {
   BriefcaseBusiness,
   MessageSquare,
 } from "lucide-react";
+import { redirect } from "next/navigation";
 
 export default  function LawyerDetailsPage({ lawyer }) {
  const { data: session } = authClient.useSession()
@@ -26,7 +28,12 @@ export default  function LawyerDetailsPage({ lawyer }) {
         console.log('Payload for hiring request:', payload);
     const response = await saveHiringRerequest(payload);
     console.log('Response from hiring request:', response);
-
+    if(response?.success) {
+      showToast(response.message, 'success');
+      redirect('/dashboard/user/hiring-requests');
+    } else {
+      showToast('Failed to send hiring request.', 'error');
+    }
     // You can add code here to send the hiring request to your backend or perform any other actions needed.
   }
   const joinedDate =

@@ -25,7 +25,7 @@ const iconMap = {
   "Hiring History": History,
   "Payment History": CreditCard,
   "My Hires": BriefcaseBusiness,
-  Reviews: Star,
+  Comments: Star,
 };
 
 export default function DashboardSidebar({

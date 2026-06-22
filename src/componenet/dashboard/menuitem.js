@@ -44,15 +44,15 @@ export const dashboardMenus = {
     },
     {
       label: "My Hires",
-      href: "/dashboard/user/my-hires",
+      href: "/dashboard/user/hiring-requests",
     },
     {
       label: "Payment History",
       href: "/dashboard/user/payments",
     },
     {
-      label: "Reviews",
-      href: "/dashboard/user/reviews",
+      label: "Comments",
+      href: "/dashboard/user/comments",
     },
   ],
 };

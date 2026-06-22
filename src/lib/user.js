@@ -20,3 +20,7 @@ export const getUserCurrent = async() => {
     const user = await getSession();
     return user;
 }
+export const requireUser = async() => {
+    const user = await getSession();
+    if(!user) {return redirect('/login')}
+}

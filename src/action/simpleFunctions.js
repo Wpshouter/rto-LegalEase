@@ -11,7 +11,7 @@ export const  showToast = async(toastText, model = 'info') => {
     progress: undefined,
     theme: "light",
     transition: Bounce,
-    }) :  toast.info(toastText, {
+    }) :  toast.success(toastText, {
     position: "top-center",
     autoClose: 5000,
     hideProgressBar: false,
