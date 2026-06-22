@@ -1,4 +1,6 @@
 'use client';
+import { saveHiringRerequest } from "@/action/apiProfile";
+import { authClient } from "@/lib/auth-client";
 import {
   Scale,
   DollarSign,
@@ -8,13 +10,30 @@ import {
   MessageSquare,
 } from "lucide-react";
 
-export default function LawyerDetailsPage({ lawyer }) {
+export default  function LawyerDetailsPage({ lawyer }) {
+ const { data: session } = authClient.useSession()
+ console.log('user from lawyer details page', session);
+  const handle_hiring_request_click = async(e) => {
+    console.log('Hiring request sent for lawyer:', e.target);
+    const payload = {
+      lawyerId: lawyer._id,
+      lawyerName: lawyer.name,
+      fee: lawyer.fee,
+      requested_by: session?.user?.id, // Replace with actual user ID from your authentication system
+      'status': 'pending',
+      created_at: new Date(),
+    }
+        console.log('Payload for hiring request:', payload);
+    const response = await saveHiringRerequest(payload);
+    console.log('Response from hiring request:', response);
 
+    // You can add code here to send the hiring request to your backend or perform any other actions needed.
+  }
   const joinedDate =
     new Date(
       lawyer.createdAt
     ).toLocaleDateString();
-
+console.log(lawyer, "lawyer from details page");
   return (
     <div className="">
 
@@ -185,14 +204,14 @@ export default function LawyerDetailsPage({ lawyer }) {
             />
 
             <h2 className="text-2xl font-bold">
-              Client Reviews
+              Client Comment
             </h2>
 
           </div>
 
           <div className="text-center py-12 opacity-60">
 
-            No reviews yet.
+            No Comment yet.
 
           </div>
 
@@ -217,7 +236,7 @@ export default function LawyerDetailsPage({ lawyer }) {
 
           <p className="mb-4">
 
-            You are about to hire
+            You are about to hire request to
             <span className="font-bold">
               {" "}
               {lawyer.name}
@@ -228,7 +247,7 @@ export default function LawyerDetailsPage({ lawyer }) {
             <span className="font-bold text-warning">
               {" "} ${lawyer.fee}
             </span>
-
+            {". "}You can pay from your dashboard once they accept your hiring request.
           </p>
 
           <div className="modal-action">
@@ -240,9 +259,14 @@ export default function LawyerDetailsPage({ lawyer }) {
               </button>
 
             </form>
+            
+              <button onClick={(e)=> handle_hiring_request_click(e)} className="btn btn-warning">
 
-          
-                <form action="/api/checkout_sessions" method="POST">
+              Send Request
+
+            </button>
+
+                {/* <form action="/api/checkout_sessions" method="POST">
                 <input type="hidden" name="lawyerId" value={lawyer._id} />
                 <input type="hidden" name="lawyerName" value={lawyer.name} />
                 <input type="hidden" name="fee" value={lawyer.fee} />
@@ -253,7 +277,7 @@ export default function LawyerDetailsPage({ lawyer }) {
 
             </button>
       </section>
-    </form>
+    </form> */}
     {/*
     
                 lawyerId: lawyer.lawyer_id,

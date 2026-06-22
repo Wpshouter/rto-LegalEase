@@ -30,3 +30,9 @@ export const saveHiringHistory = async (data) => {
     const res = await serverPost(`${process.env.NEXT_PUBLIC_BACKEND_URI}/api/hiring-history`, data);
     return res;
 }
+export const saveHiringRerequest = async (data) => {
+    console.log(`${process.env.NEXT_PUBLIC_BACKEND_URI}/api/hiring-request`, data, 'asdasdas');
+    
+    const res = await serverPost(`${process.env.NEXT_PUBLIC_BACKEND_URI}/api/hiring-request`, data);
+    return res;
+}
