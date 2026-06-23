@@ -28,6 +28,20 @@ export default function LawyerRequestsPage({user,requests}) {
 
         // You can add code here to send the approval action to your backend or perform any other actions needed.
     }
+        const handleDecline = async (requestId) => {
+        // Implement decline logic here
+        console.log("Declined request ID:", requestId);
+        const payload = {
+            requestId,
+            user,
+            status: 'declined'
+        }
+        console.log(payload, "payload for decline request");
+        const response = await updateHiringRequestStatus(payload);
+        console.log('Response from decline request:', response);
+        router.refresh();
+    } 
+    
 /*[
     {
         "_id": "6a3984c487c9f54a7c2fc7c4",
@@ -168,6 +182,8 @@ export default function LawyerRequestsPage({user,requests}) {
 
                   <th>Status</th>
 
+                  <th>Payment</th>
+
                   <th className="text-center">
                     Actions
                   </th>
@@ -231,7 +247,18 @@ export default function LawyerRequestsPage({user,requests}) {
                         request.status
                       )}
                     </td>
-
+                    <td>
+                        {
+                        (request.status === "approved") ? (
+                          <>
+                            <div className="badge badge-warning gap-1">
+                              <Clock3 size={12} />
+                              Awaiting Payment
+                            </div>
+                          </>
+                        ):  ''
+                        }
+                    </td>
                     <td>
 
                       <div className="flex justify-center gap-3">

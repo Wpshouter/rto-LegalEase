@@ -15,6 +15,9 @@ export async function POST(req) {
         const lawyerName =
             formData.get("lawyerName");
 
+               const reqID =
+            formData.get("reqID");
+
         const fee =
             Number(
                 formData.get("fee")
@@ -57,6 +60,7 @@ export async function POST(req) {
                     lawyerName,
                     fee:
                         fee.toString(),
+                    reqID
                 },
 
                 success_url:

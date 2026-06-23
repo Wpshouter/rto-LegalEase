@@ -32,6 +32,7 @@ export default async function Success({ searchParams }) {
       lawyerName: metadata.lawyerName,
       fee: metadata.fee,
       hired_by: user?.id, // Replace with actual user ID from your authentication system
+      reqID: metadata.reqID,
       'stuatus': 'hired',
       'payment_intent_id': restofdata?.payment_intent?.id,
       created_at: new Date(),

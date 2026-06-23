@@ -61,6 +61,15 @@ export default function HiringRequestsPage({user, hiringRequests}) {
           </div>
         );
 
+        
+      case "declined":
+        return (
+          <div className="badge badge-error gap-1">
+            <Clock3 size={12} />
+            Declined
+          </div>
+        );
+
       default:
         return (
           <div className="badge">
@@ -193,20 +202,70 @@ export default function HiringRequestsPage({user, hiringRequests}) {
                     </td>
 
                     <td>
-                      {(request.payment) ? (
-                      <div className="badge badge-success">
-
-                        Paid
-
-                      </div>
-                      ) : (
-                      <div className="badge badge-warning">Awaiting Lawyer Approval</div>)}
+                 {
+  request.payment ? (
+    <div className="badge badge-success">
+      Paid
+    </div>
+  ) : request.status === "declined" ? (
+    <div className="badge badge-error">
+      Request Declined
+    </div>
+  ) :
+  request.status === 'approved' ? (
+      <div className="badge badge-soft">
+      Awaiting Payment
+    </div>
+  )
+  :
+  (
+    <div className="badge badge-warning">
+      Awaiting Lawyer Approval
+    </div>
+  )
+}
                     </td>
 
                     <td>
 
                       <div className="flex gap-2">
+{/*
 
+{
+    "_id": "6a399ad94af7c5fb10e86f9b",
+    "lawyerId": "6a369816dfe529732b664825",
+    "lawyerName": "Eleanor Vance",
+    "fee": 556,
+    "requested_by": "6a3968d7f2853813c1b63117",
+    "status": "approved",
+    "created_at": "2026-06-22T20:28:09.123Z",
+    "updated_at": "2026-06-23T08:54:16.278Z",
+    "payment": null,
+    "profile": {
+        "_id": "6a369816dfe529732b664825",
+        "lawyer_id": "6a3697df3643bfb2b77e333b",
+        "bio": "Eleanor Vance specializes in strategic tax planning, asset protection, and comprehensive legal consultation for high-net-worth individuals and growing businesses. With over a decade of experience navigating complex state and federal tax codes, Eleanor helps clients minimize liabilities, stay strictly compliant, and proactively prepare for audits.\n\nKnown for her sharp analytical mind and clear communication, she translates dense legal jargon into actionable business strategies. Whether structuring a new corporate entity or resolving an IRS dispute, Eleanor provides the steady, expert guidance needed to protect her clients' financial futures.",
+        "createdAt": "2026-06-21T19:57:18.210Z",
+        "fee": 556,
+        "imageUrl": "https://i.ibb.co/pjmzfFR5/nussbaum-law-IOvs-EAEjn-DE-unsplash.jpg",
+        "name": "Eleanor Vance",
+        "public": true,
+        "specializations": [
+            "Employment Law",
+            "Family Law"
+        ],
+        "status": "active"
+    }
+}
+
+*/}
+                        <form action="/api/checkout_sessions" method="POST">
+                <input type="hidden" name="lawyerId" value={request.lawyerId} />
+                <input type="hidden" name="lawyerName" value={request.lawyerName} />
+                <input type="hidden" name="fee" value={request.fee} />
+                <input type="hidden" name="reqID" value={request._id} />
+      <section>
+   
                         <button    disabled={request.status !== "approved"} className="btn btn-sm btn-outline">
 
                           <Eye size={16} />
@@ -214,6 +273,9 @@ export default function HiringRequestsPage({user, hiringRequests}) {
                           Pay Now
 
                         </button>
+      </section>
+    </form>
+
 
                       </div>
 
