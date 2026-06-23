@@ -259,7 +259,12 @@ export default function HiringRequestsPage({user, hiringRequests}) {
 }
 
 */}
-                        <form action="/api/checkout_sessions" method="POST">
+      {
+        request.payment ?  <div className="badge badge-success">
+      Paid
+    </div>
+    :
+                            <form action="/api/checkout_sessions" method="POST">
                 <input type="hidden" name="lawyerId" value={request.lawyerId} />
                 <input type="hidden" name="lawyerName" value={request.lawyerName} />
                 <input type="hidden" name="fee" value={request.fee} />
@@ -275,6 +280,8 @@ export default function HiringRequestsPage({user, hiringRequests}) {
                         </button>
       </section>
     </form>
+      }
+
 
 
                       </div>
