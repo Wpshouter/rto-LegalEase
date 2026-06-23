@@ -8,6 +8,7 @@ import {
   DollarSign,
   Pencil,
   Trash2,
+  BriefcaseBusinessIcon,
 } from "lucide-react";
 import { showToast, uploadToImgBB } from "@/action/simpleFunctions";
 import { createProfile } from "@/action/apiProfile";
@@ -45,29 +46,7 @@ const legalServices = [
   "Legal Consultation",
   "Business Registration",
 ];
-  const services = [
-    {
-      id: 1,
-      name: "Divorce Consultation",
-      category: "Family Law",
-      fee: "$120",
-      status: "Published",
-    },
-    {
-      id: 2,
-      name: "Corporate Contract Review",
-      category: "Corporate Law",
-      fee: "$250",
-      status: "Published",
-    },
-    {
-      id: 3,
-      name: "Criminal Defense Consultation",
-      category: "Criminal Law",
-      fee: "$180",
-      status: "Draft",
-    },
-  ];
+ 
 
 
   //state for getting exiting profile data
@@ -217,8 +196,8 @@ useEffect(() => {
       <div className="card bg-base-200 border border-warning/20 shadow-xl">
         <div className="card-body">
           <div className="flex items-center gap-4">
-            <div className="bg-warning text-white p-4 rounded-2xl">
-              <Scale size={28} />
+            <div className="bg-success text-white p-4 rounded-2xl">
+              <BriefcaseBusinessIcon size={28} />
             </div>
 
             <div>
@@ -450,84 +429,7 @@ useEffect(() => {
        
       </div>
 
-      {/* Services */}
-
-      <div className="card bg-base-200 border border-warning/20 shadow-xl">
-        <div className="card-body">
-          <div className="flex justify-between items-center">
-            <div>
-              <h2 className="card-title text-2xl">
-                My Legal Services
-              </h2>
-
-              <p className="text-base-content/60">
-                Services available to clients.
-              </p>
-            </div>
-
-            <button className="btn btn-warning">
-              Add Service
-            </button>
-          </div>
-
-          <div className="overflow-x-auto mt-4">
-            <table className="table">
-              <thead>
-                <tr>
-                  <th>Service</th>
-                  <th>Category</th>
-                  <th>Fee</th>
-                  <th>Status</th>
-                  <th className="text-center">
-                    Actions
-                  </th>
-                </tr>
-              </thead>
-
-              <tbody>
-                {services.map((service) => (
-                  <tr key={service.id}>
-                    <td className="font-medium">
-                      {service.name}
-                    </td>
-
-                    <td>
-                      {service.category}
-                    </td>
-
-                    <td>{service.fee}</td>
-
-                    <td>
-                      <div
-                        className={`badge ${
-                          service.status ===
-                          "Published"
-                            ? "badge-success"
-                            : "badge-warning"
-                        }`}
-                      >
-                        {service.status}
-                      </div>
-                    </td>
-
-                    <td>
-                      <div className="flex justify-center gap-2">
-                        <button className="btn btn-sm btn-ghost">
-                          <Pencil size={16} />
-                        </button>
-
-                        <button className="btn btn-sm btn-error btn-outline">
-                          <Trash2 size={16} />
-                        </button>
-                      </div>
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
-        </div>
-      </div>
+   
     </div>
   );
 }

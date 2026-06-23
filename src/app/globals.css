@@ -8,3 +8,15 @@ body {
 .font-heading {
   font-family: var(--font-playfair);
 }
+.cust9omsss {
+    display: grid;
+    grid-template-columns: 30% auto;
+    gap: 10px;
+    align-items: flex-start;
+}
+@media only screen and (max-width:550px) {
+  .cust9omsss {
+    grid-template-columns: 100% !important;
+
+}
+}

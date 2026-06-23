@@ -25,6 +25,37 @@ export const getUserProfileLaywer = async(laywer_id) => {
     const existingProfile = await fetchReQuest(`api/get-legal-profile/${laywer_id}`);
     return existingProfile || [];
 }
+export const getUserProfile = async(user_id) => {
+    //http://localhost:5000/api/user/6a3515888f3aa33fd7a99fb5
+    const userObject = await securefetchReQuest(`api/user/${user_id}`);
+    return userObject;
+}
+export async function getUserProfileclient(user_id) {
+  try {
+    const response = await fetch(
+      `/api/user/${user_id}`,
+      {
+        cache: "no-store",
+      }
+    );
+
+    if (!response.ok) {
+      throw new Error(
+        "Failed to fetch user"
+      );
+    }
+
+    return await response.json();
+  } catch (error) {
+    console.error(
+      "Error fetching user:",
+      error
+    );
+
+    return null;
+  }
+}
+
 export const getLawyers = async(query='') => {
     const lawyers = await fetchReQuest(`api/lawyer?${query}`);
     console.log(  'lawyers from fetch', lawyers);
@@ -46,4 +77,10 @@ export const gertHistingHirtoryLawyer = async(lawyer_id) => {
     const hiringHistory = await securefetchReQuest(`api/hiring-request/lawyer/${lawyer_id}`);
     console.log(hiringHistory, "hiring history from fetch new fetch");
     return hiringHistory || [];
+}
+export const getPaymentHistoryLawyer = async(lawyer_id) => {
+    ///api/payments/lawyer/:lawyerId
+      const hiringHistory = await securefetchReQuest(`api/payments/lawyer/${lawyer_id}`);
+       console.log(hiringHistory, "hiring history from fetch new fetch");
+      return  hiringHistory || [];
 }

@@ -22,7 +22,7 @@ const iconMap = {
   "Manage Lawyers": Scale,
   Transactions: CreditCard,
   "Manage Legal Profile": BriefcaseBusiness,
-  "Hiring History": History,
+  "Hiring Requests": History,
   "Payment History": CreditCard,
   "My Hires": BriefcaseBusiness,
   Comments: Star,

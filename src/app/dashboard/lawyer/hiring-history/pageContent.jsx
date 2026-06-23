@@ -8,7 +8,10 @@ import {
   Clock3,
   Eye,
   User,
+  Wallet,
+  History,
 } from "lucide-react";
+import Link from "next/link";
 import { useRouter } from "next/navigation";
 
 export default function LawyerRequestsPage({user,requests}) {
@@ -41,7 +44,7 @@ export default function LawyerRequestsPage({user,requests}) {
         console.log('Response from decline request:', response);
         router.refresh();
     } 
-    
+
 /*[
     {
         "_id": "6a3984c487c9f54a7c2fc7c4",
@@ -119,10 +122,10 @@ export default function LawyerRequestsPage({user,requests}) {
 
           <div className="flex items-center gap-4">
 
-            <div className="bg-warning text-white p-4 rounded-2xl">
+         
 
-              <Scale size={28} />
-
+                <div className="bg-success text-white p-4 rounded-2xl">
+              <History size={28} />
             </div>
 
             <div>
@@ -204,7 +207,7 @@ export default function LawyerRequestsPage({user,requests}) {
 
                         <div className="avatar placeholder">
 
-                          <div className="bg-warning text-white rounded-full w-12">
+                          <div className="bg-warning text-white rounded-full w-12 flex items-center justify-center">
 
                             <User size={18} />
 
@@ -249,14 +252,19 @@ export default function LawyerRequestsPage({user,requests}) {
                     </td>
                     <td>
                         {
-                        (request.status === "approved") ? (
+                        (request.payment === true) ? (
                           <>
+                            <div className="badge badge-success gap-1">
+                              <Clock3 size={12} />
+                              Paid
+                            </div>
+                          </>
+                        ):    <>
                             <div className="badge badge-warning gap-1">
                               <Clock3 size={12} />
                               Awaiting Payment
                             </div>
                           </>
-                        ):  ''
                         }
                     </td>
                     <td>
@@ -264,7 +272,7 @@ export default function LawyerRequestsPage({user,requests}) {
                       <div className="flex justify-center gap-3">
 
 
-                        {request.status === "pending" && (
+                        {request.status === "pending" ? (
                           <>
                             <button onClick={() => handleApprove(request._id)} className="btn btn-sm btn-outline">
                               Approve
@@ -274,7 +282,14 @@ export default function LawyerRequestsPage({user,requests}) {
                               Decline
                             </button>
                           </>
-                        )}
+                        ): request.payment === true ? 
+                        <>
+                        <Link href="/dashboard/lawyer/payments">
+                         <button  className="btn btn-outline btn-primary">
+                              View
+                            </button> </Link> </>
+                        : ''
+                        }
 
                       </div>
 

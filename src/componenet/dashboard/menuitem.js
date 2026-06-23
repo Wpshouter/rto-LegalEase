@@ -28,7 +28,7 @@ export const dashboardMenus = {
       href: "/dashboard/lawyer/manage-legal-profile",
     },
     {
-      label: "Hiring History",
+      label: "Hiring Requests",
       href: "/dashboard/lawyer/hiring-history",
     },
     {
