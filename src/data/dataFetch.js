@@ -84,3 +84,9 @@ export const getPaymentHistoryLawyer = async(lawyer_id) => {
        console.log(hiringHistory, "hiring history from fetch new fetch");
       return  hiringHistory || [];
 }
+
+export const getCommentLawyer = async(lawyerId) => {
+  ///api/comments/lawyer/6a369816dfe529732b664825
+  const comments = await securefetchReQuest(`api/comments/lawyer/${lawyerId}`);
+  return comments || [] ;
+}

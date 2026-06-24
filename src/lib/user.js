@@ -24,3 +24,21 @@ export const requireUser = async() => {
     const user = await getSession();
     if(!user) {return redirect('/login')}
 }
+export  const canUserCommentasdsad = async( lawyerId, userId ) => {
+  console.log(`${process.env.NEXT_PUBLIC_BACKEND_URI}/api/can-comment/${lawyerId}/${userId}`);
+  try {
+    const response =
+      await fetch(
+        `${process.env.NEXT_PUBLIC_BACKEND_URI}/api/can-comment/${lawyerId}/${userId}`,
+        {
+          cache: "no-store",
+        }
+      );
+    return await response.json();
+  } catch (error) {
+    console.error(error);
+    return {
+      canComment: false,
+    };
+  }
+}

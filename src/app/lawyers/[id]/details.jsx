@@ -9,12 +9,17 @@ import {
   BadgeCheck,
   BriefcaseBusiness,
   MessageSquare,
+  Info,
 } from "lucide-react";
 import { redirect } from "next/navigation";
+import LawyerReviewForm from "./commentForm";
+import LawyerComments from "./commentDisplay";
 
-export default  function LawyerDetailsPage({ lawyer }) {
+export default  function LawyerDetailsPage({ comments, lawyer, canUserComment }) {
+  console.log(canUserComment, 'fromdetailsaopge');
  const { data: session } = authClient.useSession()
  console.log('user from lawyer details page', session);
+ console.log(comments, 'commentsfromdetailspage');
   const handle_hiring_request_click = async(e) => {
     console.log('Hiring request sent for lawyer:', e.target);
     const payload = {
@@ -215,12 +220,23 @@ console.log(lawyer, "lawyer from details page");
             </h2>
 
           </div>
+            {
+              canUserComment.canComment == true ? 
+              <><div className="alert alert-info shadow-sm"><Info size={18} /><span>You can leave a comment for this lawyer because you have successfully hired their services.</span></div>
+                <LawyerReviewForm userId={session?.user?.id}  lawyerId={lawyer._id} canUserComment={canUserComment}/></>
+              : ''
+            }
+            {
+              comments.length > 0 ? <LawyerComments comments={comments} /> :
 
-          <div className="text-center py-12 opacity-60">
+                <div className="text-center py-12 opacity-60">
 
             No Comment yet.
-
+              
           </div>
+            }
+           
+        
 
         </div>
 
