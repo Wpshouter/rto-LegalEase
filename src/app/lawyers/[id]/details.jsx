@@ -10,10 +10,12 @@ import {
   BriefcaseBusiness,
   MessageSquare,
   Info,
+  LogIn,
 } from "lucide-react";
 import { redirect } from "next/navigation";
 import LawyerReviewForm from "./commentForm";
 import LawyerComments from "./commentDisplay";
+import Link from "next/link";
 
 export default  function LawyerDetailsPage({ comments, lawyer, canUserComment }) {
   console.log(canUserComment, 'fromdetailsaopge');
@@ -158,8 +160,8 @@ console.log(lawyer, "lawyer from details page");
               </div>
 
             </div>
-
-            <button
+            {
+              session?.user ?     <> <button
               onClick={() =>
                 document
                   .getElementById("hire_modal")
@@ -169,7 +171,18 @@ console.log(lawyer, "lawyer from details page");
             >
               <Scale size={18} />
               Hire Lawyer
+            </button> </> :  <>
+            <Link href="/auth/signin">
+            <button
+              className="btn btn-warning btn-lg max-w-xs"
+            >
+              <LogIn size={18} />
+              Login to Hire
             </button>
+            </Link>
+            </>
+            }
+       
 
           </div>
 
@@ -205,7 +218,9 @@ console.log(lawyer, "lawyer from details page");
 
       {/* COMMENTS */}
 
-      <div className="card bg-base-200 border border-warning/20 shadow-xl mt-8">
+      {
+         session?.user ?   <>
+                    <div className="card bg-base-200 border border-warning/20 shadow-xl mt-8">
 
         <div className="card-body">
 
@@ -313,6 +328,10 @@ console.log(lawyer, "lawyer from details page");
         </div>
 
       </dialog>
+         </> : ''
+      }
+
+
 
     </div>
   );

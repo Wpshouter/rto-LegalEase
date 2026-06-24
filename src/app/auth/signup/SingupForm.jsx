@@ -18,6 +18,7 @@ import {
 import { authClient } from '@/lib/auth-client';
 import { toast } from 'react-toastify';
 import { showToast } from '@/action/simpleFunctions';
+import { redirect } from 'next/navigation';
 
 const SignupForm =  () => {
 
@@ -63,10 +64,12 @@ const SignupForm =  () => {
                 },
                 onSuccess: (ctx) => {
                     //redirect to the dashboard or sign in page
+                    redirect('/');
                 },
                 onError: (ctx) => {
                     // display the error message
-                    alert(ctx.error.message);
+                    showToast(ctx.error.message);
+                    //alert(ctx.error.message);
                 },
         });
         console.log('betterauthadata', data);

@@ -11,7 +11,7 @@ const page = async ({params}) => {
     //console.log(laywer, "lawyer from page");
     const user = await getUserCurrent();
     //console.log(laywer._id, user.id, '----------------------------------');
-    const canUserComment = await canUserCommentasdsad(laywer._id, user.id);
+    const canUserComment = await canUserCommentasdsad(laywer?._id, user?.id);
     console.log( canUserComment, 'user from id page__________________');
     const getComments = await getCommentLawyer(laywer._id);
     return (

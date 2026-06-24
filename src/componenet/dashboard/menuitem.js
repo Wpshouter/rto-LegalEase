@@ -9,10 +9,6 @@ export const dashboardMenus = {
       href: "/dashboard/admin/manage-users",
     },
     {
-      label: "Manage Lawyers",
-      href: "/dashboard/admin/manage-lawyers",
-    },
-    {
       label: "Transactions",
       href: "/dashboard/admin/transactions",
     },

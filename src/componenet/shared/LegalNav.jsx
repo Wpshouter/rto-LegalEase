@@ -6,9 +6,10 @@ import { Button, Input } from "@heroui/react";
 import { Search, Scale, Menu, User } from "lucide-react";
 import { authClient } from "@/lib/auth-client";
 import { SlLogout } from "react-icons/sl";
+import { useState } from "react";
 
 const LegalNav = () => {
-
+  const [mobileOpen, setMobileOpen] = useState(false);
   const pathname = usePathname();
   const { data: session, isPending } =  authClient.useSession();
   // console.log('session ', session.data.user);
@@ -19,7 +20,7 @@ const LegalNav = () => {
 
   return (
     <nav className="sticky top-0 z-50 backdrop-blur-xl bg-base-200 border-b border-amber-200">
-      <div className="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
+      <div className="max-w-7xl mx-auto px-4 md:px-6 h-20 flex items-center justify-between">
 
         {/* Logo */}
         <Link href="/" className="flex items-center gap-3">
@@ -46,7 +47,7 @@ const LegalNav = () => {
               className={`font-medium transition relative ${
                 pathname === link.href
                   ? "text-amber-600"
-                  : "text-slate-700"
+                  : ""
               }`}
             >
               {link.label}
@@ -56,15 +57,33 @@ const LegalNav = () => {
               )}
             </Link>
           ))}
+          {
+            session  ?  <Link
+              href={`/dashboard`}
+              className={`font-medium transition relative ${
+                pathname === `/dashboard`
+                  ? "text-amber-600"
+                  : ""
+              }`}
+            >
+              Dashboard
+
+              {pathname === `/dashboard` && (
+                <span className="absolute -bottom-2 left-0 h-0.5 w-full bg-amber-500"></span>
+              )}
+            </Link> : ''
+          }
         </div>
 
         {/* Search */}
-        <div className="hidden md:block w-80">
-          <Input
+        <div className="hidden lg:block w-80">
+          <form action="/lawyers">   <Input name="search"
             placeholder="Search lawyers..."
             radius="full"
      
           />
+          </form>
+       
         </div>
 
         {/* Actions */}
@@ -73,11 +92,11 @@ const LegalNav = () => {
             { isPending ? <span className="loading loading-spinner text-success"></span> :
                         (session) ? 
                         <div className='flex gap-3 items-center'>   
-                        <button onClick={async () => {  await authClient.signOut() }} className='btn bg-blue-500 text-white shadow-sm border-1'>
+                        <button onClick={async () => {  await authClient.signOut() }} className='btn btn-primary btn-outline text-white shadow-sm border-1'>
                         <SlLogout className='text-[20px]'/>
                             Logout
                         </button>
-                        <Link href=""><p><User/></p></Link>
+                        <Link href="/dashboard"><p><User/></p></Link>
                     </div> : 
             <>
                 <Link href="/auth/signin">
@@ -95,12 +114,125 @@ const LegalNav = () => {
                 </Link>
           
 
-              <Menu className="lg:hidden" />
+
          
             </>
           }
+                        <button id="findthis"
+  className="btn btn-ghost lg:hidden"
+  onClick={() =>
+    setMobileOpen(!mobileOpen)
+  }
+>
+  <Menu size={24} />
+</button>
         </div>
       </div>
+      {mobileOpen && (
+  <div className="lg:hidden border-t border-base-300 bg-base-200">
+
+    <div className="p-4 space-y-4">
+
+      {/* Search */}
+
+      <form
+        action="/lawyers"
+        onSubmit={() =>
+          setMobileOpen(false)
+        }
+      >
+        <Input
+          name="search"
+          placeholder="Search lawyers..."
+        />
+      </form>
+
+      {/* Links */}
+
+      <div className="flex flex-col">
+
+        <Link
+          href="/"
+          onClick={() =>
+            setMobileOpen(false)
+          }
+          className="py-3 border-b border-base-300"
+        >
+          Home
+        </Link>
+
+        <Link
+          href="/lawyers"
+          onClick={() =>
+            setMobileOpen(false)
+          }
+          className="py-3 border-b border-base-300"
+        >
+          Browse Lawyers
+        </Link>
+
+        {session && (
+          <Link
+            href="/dashboard"
+            onClick={() =>
+              setMobileOpen(false)
+            }
+            className="py-3 border-b border-base-300"
+          >
+            Dashboard
+          </Link>
+        )}
+
+      </div>
+
+      {/* Auth */}
+
+      {!session ? (
+        <div className="flex flex-col gap-3">
+
+          <Link
+            href="/auth/signin"
+            onClick={() =>
+              setMobileOpen(false)
+            }
+          >
+            <button className="btn btn-outline w-full">
+              Login
+            </button>
+          </Link>
+
+          <Link
+            href="/auth/signup"
+            onClick={() =>
+              setMobileOpen(false)
+            }
+          >
+            <button className="btn btn-warning w-full">
+              Join as Lawyer
+            </button>
+          </Link>
+
+        </div>
+      ) : (
+        <button
+          className="btn btn-error w-full"
+          onClick={async () => {
+
+            await authClient.signOut();
+
+            setMobileOpen(false);
+
+          }}
+        >
+          <SlLogout />
+          Logout
+        </button>
+      )}
+
+    </div>
+
+  </div>
+)}
     </nav>
   );
 

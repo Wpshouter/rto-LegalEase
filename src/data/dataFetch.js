@@ -90,3 +90,26 @@ export const getCommentLawyer = async(lawyerId) => {
   const comments = await securefetchReQuest(`api/comments/lawyer/${lawyerId}`);
   return comments || [] ;
 }
+
+export const getUserComment = async(userId) => {
+  // /http://localhost:5000/api/comments/user/6a3984b4f2853813c1b6311a
+    const comments = await securefetchReQuest(`api/comments/user/${userId}`);
+  return comments || [] ;
+}
+
+export async function getAdminAnalytics() {
+  const response = await securefetchReQuest(`api/admin/analytics`);
+
+  return response || [];
+
+}
+export async function getAdminTransactions(){
+  const response = await securefetchReQuest('api/admin/transactions');
+   return response || [];
+}
+export async function getAllUsers() {
+
+  const response = await securefetchReQuest(`api/admin/users`);
+   return response || [];
+
+}

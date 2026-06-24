@@ -6,7 +6,7 @@ import {
   Star,
   Send,
 } from 'lucide-react';
-import { saveComment } from '@/action/apiProfile';
+import { saveComment, updateData } from '@/action/apiProfile';
 import { showToast } from '@/action/simpleFunctions';
 
 export default function LawyerReviewForm({userId, lawyerId,canUserComment}) {
@@ -27,6 +27,7 @@ export default function LawyerReviewForm({userId, lawyerId,canUserComment}) {
       comment,
       reqId: canUserComment?.reqID,
       paymentDataId: canUserComment?.paymentDataId,
+      status: 'active',
       createdAt:new Date(),
 
     };
@@ -37,7 +38,8 @@ export default function LawyerReviewForm({userId, lawyerId,canUserComment}) {
     console.log(payload);
     const res = await saveComment(payload);
     if(res.success){
-        showToast('Comment Submitted!', 'success')
+        showToast('Comment Submitted!', 'success');
+        updateData();
     }
     else{
           showToast(res.message, 'error') 

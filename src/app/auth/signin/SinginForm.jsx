@@ -17,6 +17,7 @@ import {
 } from 'lucide-react';
 import { authClient } from '@/lib/auth-client';
 import { redirect, useRouter } from "next/navigation";
+import { showToast } from '@/action/simpleFunctions';
 
 
 const SigninForm = () => {
@@ -62,7 +63,8 @@ const SigninForm = () => {
     },
 
     onError: (ctx) => {
-      alert(ctx.error.message);
+    showToast(ctx.error.message, 'error');
+      //alert(ctx.error.message);
     },
   }
 );
@@ -139,19 +141,9 @@ const SigninForm = () => {
                         }
                     />
 
-                    <div className="flex justify-between items-center">
+                    <div className="flex justify-end items-center">
 
-                        <Checkbox
-                            isSelected={formData.remember}
-                            onValueChange={(checked) =>
-                                setFormData(prev => ({
-                                    ...prev,
-                                    remember: checked,
-                                }))
-                            }
-                        >
-                            Remember Me
-                        </Checkbox>
+           
 
                         <Link
                             href="/forgot-password"
@@ -184,7 +176,7 @@ const SigninForm = () => {
                     <p className="text-center text-sm text-default-500">
                         Don't have an account?{' '}
                         <Link
-                            href="/signup"
+                            href="/auth/signup"
                             className="text-warning font-medium hover:underline"
                         >
                             Create Account

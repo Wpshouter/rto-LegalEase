@@ -1,3 +1,4 @@
+
 import { Bounce, toast } from 'react-toastify';
 export const  showToast = async(toastText, model = 'info') => {
     console.log(model);

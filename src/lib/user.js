@@ -12,8 +12,27 @@ export async function getSession() {
   return usersession?.user || null;
 }
 
+
+export async function getSessionFulljWT() {
+
+  const response = await fetch(
+    `${process.env.NEXT_PUBLIC_APP_URL}/api/auth/token`,
+    {
+      headers: await headers(),
+      cache: 'no-store',
+    }
+  );
+
+  const data =
+    await response.json();
+
+  return data.token;
+}
 export const requirerole = async(role) => {
     const user = await getSession();
+    if(!user){
+      return redirect('/auth/signin')
+    }
     if(user?.role != role) {return redirect('/unauthorized')}
 }
 export const getUserCurrent = async() => {
@@ -41,4 +60,11 @@ export  const canUserCommentasdsad = async( lawyerId, userId ) => {
       canComment: false,
     };
   }
+}
+export const authHeader = async() => {
+  const token = await getSessionFulljWT();
+  const header = token ? {
+    authorization : `Bearer ${token}`
+  } : {}
+  return header;
 }
