@@ -61,7 +61,7 @@ const LegalNav = () => {
             session  ?  <Link
               href={`/dashboard`}
               className={`font-medium transition relative ${
-                pathname === `/dashboard`
+                pathname.startsWith(`/dashboard`)
                   ? "text-amber-600"
                   : ""
               }`}
@@ -109,7 +109,7 @@ const LegalNav = () => {
                   <Button
                 className="bg-amber-500 text-white"
               >
-                Join as Lawyer
+                Join
               </Button>
                 </Link>
           
@@ -208,7 +208,7 @@ const LegalNav = () => {
             }
           >
             <button className="btn btn-warning w-full">
-              Join as Lawyer
+              Join
             </button>
           </Link>
 

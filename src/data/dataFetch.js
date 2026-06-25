@@ -1,3 +1,5 @@
+import { handeStatusCode } from "@/action/apiProfile";
+import { authHeader } from "@/lib/user";
 
 export const fetchReQuest = async (path) => {
    
@@ -7,7 +9,7 @@ export const fetchReQuest = async (path) => {
   //return;
   const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URI}/${path}`);
   const data = await res.json();
-  return data;
+  return data || [];
 };
 export const securefetchReQuest = async (path) => {
    
@@ -15,8 +17,12 @@ export const securefetchReQuest = async (path) => {
 
   console.log(`secure Fetching data from: ${process.env.NEXT_PUBLIC_BACKEND_URI}/${path}` );
   //return;
-  const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URI}/${path}`);
-  const data = await res.json();
+  const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URI}/${path}`, 
+                {
+                    headers: await authHeader()
+                }
+              );
+  const data = await handeStatusCode(res);
   return data;
 };
 export const getUserProfileLaywer = async(laywer_id) => {

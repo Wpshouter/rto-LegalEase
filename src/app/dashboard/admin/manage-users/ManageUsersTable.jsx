@@ -42,7 +42,7 @@ export default function ManageUsersTable({
       userId,
       role
     ) => {
-
+        if(role == '') return;
       await changeUserRole(
         userId,
         role
@@ -217,7 +217,9 @@ export default function ManageUsersTable({
                               )
                             }
                           >
-
+                            <option selected value="">
+                              Select to chnage
+                            </option>
                             <option value="client">
 
                               Client

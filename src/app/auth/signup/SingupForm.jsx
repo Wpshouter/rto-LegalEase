@@ -56,19 +56,22 @@ const SignupForm =  () => {
             return false;
         }
         const { data, error } = await authClient.signUp.email({
-                ...formData,
-                callbackURL: "/dashboard" // A URL to redirect to after the user verifies their email (optional)
+                 name: formData.name,
+  email: formData.email,
+  password: formData.password,
+                callbackURL: "/" // A URL to redirect to after the user verifies their email (optional)
             }, {
                 onRequest: (ctx) => {
                     //show loading
                 },
                 onSuccess: (ctx) => {
                     //redirect to the dashboard or sign in page
-                    redirect('/');
+                    showToast('SignUp Successfull', 'Success');
+                    redirect('/dashboard');
                 },
                 onError: (ctx) => {
                     // display the error message
-                    showToast(ctx.error.message);
+                    showToast(ctx.error.message, 'error');
                     //alert(ctx.error.message);
                 },
         });

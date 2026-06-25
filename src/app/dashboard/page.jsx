@@ -1,3 +1,4 @@
+import ChooseRole from '@/componenet/dashboard/ChooseRole';
 import { getSession } from '@/lib/user';
 import { redirect } from 'next/navigation';
 import React from 'react';
@@ -8,7 +9,11 @@ const page = async() => {
     if(!user){
         redirect('/auth/signin');
     }
-   
+    if(user.role === 'user'){
+     
+           return <ChooseRole user={user} />;
+    }
+    else{
     if(user){
         if(user.role == 'client'){
             redirect('/dashboard/user');
@@ -22,6 +27,7 @@ const page = async() => {
     }
     else{
         redirect('/auth/signin');
+    }
     }
     return (
         <div>

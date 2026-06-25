@@ -45,21 +45,22 @@ const SigninForm = () => {
          * remember the user session after the browser is closed. 
          * @default true
          */
-        rememberMe: true
+        rememberMe: true,
+        callbackURL: '/',
 },
   {
     onSuccess: (ctx) => {
       const user = ctx.data?.user;
+      //showToast('Login Successfull','success');
+    //   if (!user) {
+    //         redirect('/auth/signin');
+    //   }
 
-      if (!user) {
-            redirect('/auth/signin');
-      }
-
-      if (user.role === "client") {
-            redirect('/');
-      } else {
-              redirect('/dashboard');
-      }
+      if (user.role === "lawyer" || user.role === "admin") {
+            redirect('/dashboard');
+      } //else {
+    //           redirect('/dashboard');
+    //   }
     },
 
     onError: (ctx) => {

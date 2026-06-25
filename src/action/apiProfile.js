@@ -4,6 +4,7 @@ import { revalidatePath } from 'next/cache';
 import { headers } from 'next/headers';
 import { showToast } from './simpleFunctions';
 import { authHeader } from '@/lib/user';
+import { redirect } from 'next/navigation';
 export const createProfile = async(data) => {
     // const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URI}/api/legal_profiles`, {
     //     method: 'POST',
@@ -29,7 +30,7 @@ export const serverPost = async (url, data) => {
         },
         body: JSON.stringify(data)
     });
-    return res.json();
+    return handeStatusCode(res);
 }
 export const serverPatch = async (url, data ) => {
   const res = await fetch(url, {
@@ -41,7 +42,7 @@ export const serverPatch = async (url, data ) => {
     },
     body: JSON.stringify(data),
   });
-  return res.json();
+  return handeStatusCode(res);
 };
 
 export const serverDelete = async (url, data = {}) => {
@@ -54,7 +55,7 @@ export const serverDelete = async (url, data = {}) => {
       },
       body: JSON.stringify(data),
     });
-    return res.json();
+    return handeStatusCode(res);
 };
 export const saveHiringHistory = async (data) => {
     const res = await serverPost(`${process.env.NEXT_PUBLIC_BACKEND_URI}/api/hiring-history`, data);
@@ -142,3 +143,23 @@ export async function deleteUser(
 
   return result;
 }
+
+export const handeStatusCode = async(res) => {
+  if(res.status === 401){
+    redirect('auth/signin');
+  }
+  else if (res.status == 403){
+    redirect('/unauthorized');
+  }
+
+  return res.json();
+}
+
+export const completeRegistration = async (data) => {
+    const res = await serverPost(
+        `${process.env.NEXT_PUBLIC_BACKEND_URI}/api/complete-registration`,
+        data
+    );
+
+    return res;
+};
