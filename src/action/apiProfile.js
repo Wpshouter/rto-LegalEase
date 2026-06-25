@@ -21,7 +21,7 @@ export const createProfile = async(data) => {
 
 
 export const serverPost = async (url, data) => {
-    console.log('Posting data to server:', url, data);
+    //console.log('Posting data to server:', url, data);
     const res = await fetch(url, {
         method: 'POST',         
         headers:{
@@ -62,7 +62,7 @@ export const saveHiringHistory = async (data) => {
     return res;
 }
 export const saveHiringRerequest = async (data) => {
-    console.log(`${process.env.NEXT_PUBLIC_BACKEND_URI}/api/hiring-request`, data, 'asdasdas');
+    //console.log(`${process.env.NEXT_PUBLIC_BACKEND_URI}/api/hiring-request`, data, 'asdasdas');
     
     const res = await serverPost(`${process.env.NEXT_PUBLIC_BACKEND_URI}/api/hiring-request`, data);
     return res;
@@ -128,7 +128,7 @@ updateData();
 export async function deleteUser(
   userId
 ) {
-  console.log(userId, 'fromserver');
+  //console.log(userId, 'fromserver');
   const result = await auth.api.removeUser({
     body: {
         userId: userId, // required
