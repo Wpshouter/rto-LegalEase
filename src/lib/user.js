@@ -68,6 +68,7 @@ export  const canUserCommentasdsad = async( lawyerId, userId ) => {
   }
 }
 export const authHeader = async() => {
+  return {};
   const token = await getSessionFulljWT();
   const header = token ? {
     authorization : `Bearer ${token}`
