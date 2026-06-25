@@ -35,7 +35,7 @@ const SigninForm = () => {
         e.preventDefault();
 
         setLoading(true);
-        console.log(formData);
+        //console.log(formData);
         const { data, error } = await authClient.signIn.email({
         /**
          * The user email
@@ -77,7 +77,7 @@ const SigninForm = () => {
         // Better Auth Login
         // auth.signIn.email()
         // Redirect based on role
-        console.log(data, error);
+        //console.log(data, error);
     };
     if(loading) return <Loading />
     return (
