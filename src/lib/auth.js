@@ -8,6 +8,7 @@ const db = client.db(process.env.DATABASE_NAME)
 
 export const auth = betterAuth({
   //...other options
+      baseURL: process.env.BETTER_AUTH_URL,
     database: mongodbAdapter(db, {
     // Optional: if you don't provide a client, database transactions won't be enabled.
     client

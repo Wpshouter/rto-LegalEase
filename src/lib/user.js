@@ -13,27 +13,38 @@ export async function getSession() {
 }
 
 
-export async function getSessionFulljWT() {
-   const session = await auth.api.getSession({
-      headers: await headers(),
-    });
 
-    if (!session) {
-      return []
-    }
-  const response = await fetch(
-    `${process.env.NEXT_PUBLIC_APP_URL}/api/auth/token`,
-    {
-      headers: await headers(),
-      cache: 'no-store',
-    }
-  );
+export async function getSessionJWT() {
+  const session = await auth.api.getSession({ headers: await headers() });
+  if (!session) return null;
 
-  const data =
-    await response.json();
-
-  return data.token;
+  // Some Better Auth builds expose the JWT on session.session.token;
+  // fall back to null if not present.
+  console.log(session.session?.token);
+  return session.session?.token ?? null;
 }
+
+// export async function getSessionFulljWT() {
+//    const session = await auth.api.getSession({
+//       headers: await headers(),
+//     });
+
+//     if (!session) {
+//       return []
+//     }
+//   const response = await fetch(
+//     `${process.env.NEXT_PUBLIC_APP_URL}/api/auth/token`,
+//     {
+//       headers: await headers(),
+//       cache: 'no-store',
+//     }
+//   );
+
+//   const data =
+//     await response.json();
+
+//   return data.token;
+// }
 export const requirerole = async(role) => {
     const user = await getSession();
     if(!user){
@@ -68,8 +79,8 @@ export  const canUserCommentasdsad = async( lawyerId, userId ) => {
   }
 }
 export const authHeader = async() => {
-  return {};
-  const token = await getSessionFulljWT();
+  //return  await authHeaderNew();
+  const token = await getSessionJWT();
   const header = token ? {
     authorization : `Bearer ${token}`
   } : {}
