@@ -7,11 +7,12 @@ export const fetchReQuest = async (path) => {
 
 
   //return;
+  console.log(`secure Fetching data from: ${process.env.NEXT_PUBLIC_BACKEND_URI}/${path}` );
   const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URI}/${path}`,    {
       cache: "no-store",
     });
-  const data = await res.json();
-  return data || [];
+  //const data = await res.json();
+  return  [];
 };
 export const securefetchReQuest = async (path) => {
    
@@ -26,7 +27,7 @@ export const securefetchReQuest = async (path) => {
                 }
               );
   const data = await handeStatusCode(res);
-  return data;
+  return data || [];
 };
 export const getUserProfileLaywer = async(laywer_id) => {
    //console.log(`${process.env.NEXT_PUBLIC_BACKEND_URI}/api/get-legal-profile/${laywer_id}`);
