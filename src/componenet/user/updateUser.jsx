@@ -7,7 +7,7 @@ import { SiGnuprivacyguard } from 'react-icons/si';
 import { Bounce, toast } from 'react-toastify';
 
 const UpdateForm = ({user}) => {
-    console.log(user, 'user from udpateform');
+   // console.log(user, 'user from udpateform');
          const {
             register,
             handleSubmit,
@@ -15,13 +15,13 @@ const UpdateForm = ({user}) => {
             formState: { errors },
           } = useForm()
             const onSubmit = async(data) => {
-                console.log(data);
+               // console.log(data);
                 const {email, name, photo_url, password} = data;
                 const {data:res, error} = await  authClient.updateUser({
                     image: photo_url,
                     name: name,
                 })
-                console.log(res, error);
+              //  console.log(res, error);
                 if(error){
                       //alert(error.message);
                   toast.error(`${error.message}`, {

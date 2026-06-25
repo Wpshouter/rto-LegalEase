@@ -28,7 +28,7 @@ export default function ChooseRole({ user }) {
       const res = await completeRegistration({
         role: selectedRole
         });
-        console.log(res, "+++++++++++++++++++++++_______________+++++++++++++++++++");
+        //console.log(res, "+++++++++++++++++++++++_______________+++++++++++++++++++");
       showToast(
         'Account type selected!',
         'success'

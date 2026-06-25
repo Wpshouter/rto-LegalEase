@@ -141,13 +141,13 @@ useEffect(() => {
     // }
     // imgBB upload
     // save profile
-        console.log('payload', payload);
+        //console.log('payload', payload);
           const { name, imageUrl:imgURL} = payload;
     const {data:res, error} = await  authClient.updateUser({
                         image: imgURL,
                         name: name,
                     })
-                    console.log(res, error);
+                    //console.log(res, error);
                     if(error){
                           setSaving(false);
                     showToast(error.message, 'error');

@@ -8,7 +8,7 @@ import SuccessPage from '@/componenet/success/PageSuccessContent';
 export default async function Success({ searchParams }) {
   const { session_id } = await searchParams
   const user = await getSession();
-  console.log('user from success page', user);
+  //console.log('user from success page', user);
   if (!session_id)
     throw new Error('Please provide a valid session_id (`cs_test_...`)')
 
@@ -18,10 +18,10 @@ export default async function Success({ searchParams }) {
   } = await stripe.checkout.sessions.retrieve(session_id, {
     expand: ['line_items', 'payment_intent']
   })
-  console.log('restofdata from success page', restofdata?.payment_intent?.id);
-  console.log('metadata from success page', metadata);
-  console.log('status from success page', status);
-  console.log('customerEmail from success page', customerEmail);
+  //console.log('restofdata from success page', restofdata?.payment_intent?.id);
+  //console.log('metadata from success page', metadata);
+  //console.log('status from success page', status);
+  //console.log('customerEmail from success page', customerEmail);
   if (status === 'open') {
     return redirect('/')
   }
@@ -47,9 +47,9 @@ export default async function Success({ searchParams }) {
 
 }
       */
-    console.log('payload for saving hiring history', payload);
+    //console.log('payload for saving hiring history', payload);
     const res = await saveHiringHistory(payload);
-    console.log(res, 'res from saving hiring history');
+    //console.log(res, 'res from saving hiring history');
     return (
       <SuccessPage customerEmail={customerEmail} />
     )

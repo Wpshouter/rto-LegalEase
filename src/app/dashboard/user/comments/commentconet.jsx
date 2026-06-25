@@ -25,9 +25,9 @@ export default function UserReviewsPage({
   );
 
   if (!confirmed) return;
-  console.log(commentId);
+  //console.log(commentId);
   const res = await deleteComment(commentId, user?.id );
-  console.log('delect comment response', res);
+  //console.log('delect comment response', res);
   if(res.success){
     showToast('Comment Deleted', 'success');
     updateData();

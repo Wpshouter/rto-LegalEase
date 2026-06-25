@@ -12,7 +12,7 @@ const page = async ({params}) => {
     const user = await getUserCurrent();
     //console.log(laywer._id, user.id, '----------------------------------');
     const canUserComment = await canUserCommentasdsad(laywer?._id, user?.id);
-    console.log( canUserComment, 'user from id page__________________');
+    //console.log( canUserComment, 'user from id page__________________');
     const getComments = await getCommentLawyer(laywer._id);
     return (
          <div className="relative max-w-7xl mx-auto px-6 py-28">

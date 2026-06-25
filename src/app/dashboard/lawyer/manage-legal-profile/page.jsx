@@ -148,7 +148,7 @@ useEffect(() => {
     let imageUrl = "";
       setSaving(true);
     const {image, imagePreview, ...filteredformdata} = formData;
-        console.log(formData.image)
+       // console.log(formData.image)
     if (formData.image) {
       imageUrl = await uploadToImgBB(
         formData.image

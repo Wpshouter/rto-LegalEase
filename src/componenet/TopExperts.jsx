@@ -13,7 +13,7 @@ import Image from "next/image";
 export default function TopLegalExperts({lawyers}) {
 
 const newLaywer = lawyers.slice(0,3)
-console.log(newLaywer, '+++++++++++++++++++++++');
+//console.log(newLaywer, '+++++++++++++++++++++++');
    const container = {
     hidden: {},
     show: {
@@ -94,7 +94,7 @@ console.log(newLaywer, '+++++++++++++++++++++++');
         >
 
           {newLaywer.map((lawyer) => (
-            console.log(lawyer),
+            //console.log(lawyer),
             <motion.div
               key={lawyer._id}
               variants={item}

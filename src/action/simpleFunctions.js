@@ -1,7 +1,7 @@
 
 import { Bounce, toast } from 'react-toastify';
 export const  showToast = async(toastText, model = 'info') => {
-    console.log(model);
+    //console.log(model);
     (model == 'error') ? toast.error(toastText, {
     position: "top-center",
     autoClose: 5000,

@@ -12,7 +12,7 @@ const GoogleLoginButton = ({setLoading}) => {
                 provider: "google",
                     callbackURL: "/dashboard"
               });
-              console.log(data);
+              //console.log(data);
                 }
     return (
         <>

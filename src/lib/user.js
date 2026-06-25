@@ -44,7 +44,7 @@ export const requireUser = async() => {
     if(!user) {return redirect('/login')}
 }
 export  const canUserCommentasdsad = async( lawyerId, userId ) => {
-  console.log(`${process.env.NEXT_PUBLIC_BACKEND_URI}/api/can-comment/${lawyerId}/${userId}`);
+  //console.log(`${process.env.NEXT_PUBLIC_BACKEND_URI}/api/can-comment/${lawyerId}/${userId}`);
   try {
     const response =
       await fetch(

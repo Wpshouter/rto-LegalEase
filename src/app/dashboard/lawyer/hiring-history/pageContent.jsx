@@ -18,30 +18,30 @@ export default function LawyerRequestsPage({user,requests}) {
     const router = useRouter();
     const handleApprove = async (requestId) => {
         // Implement approve logic here
-        console.log("Approved request ID:", requestId);
+       // console.log("Approved request ID:", requestId);
         const payload = {
             requestId,
             user,
             status: 'approved'
         }
-        console.log(payload, "payload for approve request");
+       // console.log(payload, "payload for approve request");
         const response = await updateHiringRequestStatus(payload);
-        console.log('Response from approve request:', response);
+       // console.log('Response from approve request:', response);
         router.refresh();
 
         // You can add code here to send the approval action to your backend or perform any other actions needed.
     }
         const handleDecline = async (requestId) => {
         // Implement decline logic here
-        console.log("Declined request ID:", requestId);
+      //  console.log("Declined request ID:", requestId);
         const payload = {
             requestId,
             user,
             status: 'declined'
         }
-        console.log(payload, "payload for decline request");
+       // console.log(payload, "payload for decline request");
         const response = await updateHiringRequestStatus(payload);
-        console.log('Response from decline request:', response);
+       // console.log('Response from decline request:', response);
         router.refresh();
     } 
 

@@ -15,7 +15,7 @@ export default async function Page({
     //     `${process.env.NEXT_PUBLIC_BACKEND_URI}/api/lawyers?${query}`
     // );
   // later replace with server fetch
-  console.log(query, "queryfromget");
+  //console.log(query, "queryfromget");
   const response = await getLawyers(query);
   let lawyers = [];
   let total = 0;
@@ -28,7 +28,7 @@ export default async function Page({
     lawyers = response;
   }
   
-  console.log(lawyers, "lawyers from page");
+  //console.log(lawyers, "lawyers from page");
         const itemsPerPage = 12;
     const totalPages = Math.ceil(total/ itemsPerPage);
 

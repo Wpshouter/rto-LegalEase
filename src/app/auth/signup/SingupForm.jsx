@@ -33,9 +33,9 @@ const SignupForm =  () => {
         confirmPassword: '',
         role: role,
     });
-    console.log('roleee', role);
+    //console.log('roleee', role);
     const handleChange = (field, e) => {
-        console.log(e.target.value);
+        //console.log(e.target.value);
         const value = e.target.value
         setFormData(prev => ({
             ...prev,
@@ -47,7 +47,7 @@ const SignupForm =  () => {
         e.preventDefault();
         setLoading(true);
         formData.role = role
-        console.log(formData);
+       // console.log(formData);
         if(formData.password != formData.confirmPassword){
             //alert('Password Do Not Match');
             showToast('Password Do Not Match', 'error');
@@ -81,7 +81,7 @@ const SignupForm =  () => {
                     //alert(ctx.error.message);
                 },
         });
-        console.log('betterauthadata', data);
+        //console.log('betterauthadata', data);
         // Better Auth Signup
         // Validate passwords
         // Call auth.signUp.email()

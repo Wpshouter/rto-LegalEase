@@ -35,7 +35,7 @@ export default function LawyerReviewForm({userId, lawyerId,canUserComment}) {
         showToast('Comment must have more than 10 character', 'error') 
         return;
     }
-    console.log(payload);
+    //console.log(payload);
     const res = await saveComment(payload);
     if(res.success){
         showToast('Comment Submitted!', 'success');
@@ -44,7 +44,7 @@ export default function LawyerReviewForm({userId, lawyerId,canUserComment}) {
     else{
           showToast(res.message, 'error') 
     }
-    console.log(res, '_________________++++++++++++++++_______________');
+    //console.log(res, '_________________++++++++++++++++_______________');
 
 
     // submit review here

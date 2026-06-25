@@ -18,12 +18,12 @@ import LawyerComments from "./commentDisplay";
 import Link from "next/link";
 
 export default  function LawyerDetailsPage({ comments, lawyer, canUserComment }) {
-  console.log(canUserComment, 'fromdetailsaopge');
+  //console.log(canUserComment, 'fromdetailsaopge');
  const { data: session } = authClient.useSession()
- console.log('user from lawyer details page', session);
- console.log(comments, 'commentsfromdetailspage');
+// console.log('user from lawyer details page', session);
+ //console.log(comments, 'commentsfromdetailspage');
   const handle_hiring_request_click = async(e) => {
-    console.log('Hiring request sent for lawyer:', e.target);
+   // console.log('Hiring request sent for lawyer:', e.target);
     const payload = {
       lawyerId: lawyer._id,
       lawyerName: lawyer.name,
@@ -32,9 +32,9 @@ export default  function LawyerDetailsPage({ comments, lawyer, canUserComment })
       'status': 'pending',
       created_at: new Date(),
     }
-        console.log('Payload for hiring request:', payload);
+       // console.log('Payload for hiring request:', payload);
     const response = await saveHiringRerequest(payload);
-    console.log('Response from hiring request:', response);
+   // console.log('Response from hiring request:', response);
     if(response?.success) {
       showToast(response.message, 'success');
       redirect('/dashboard/user/hiring-requests');
@@ -47,7 +47,7 @@ export default  function LawyerDetailsPage({ comments, lawyer, canUserComment })
     new Date(
       lawyer.createdAt
     ).toLocaleDateString();
-console.log(lawyer, "lawyer from details page");
+//console.log(lawyer, "lawyer from details page");
   return (
     <div className="">
 

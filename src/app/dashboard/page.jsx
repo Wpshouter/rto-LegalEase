@@ -5,7 +5,7 @@ import React from 'react';
 
 const page = async() => {
     const user = await getSession();
-    console.log(user);
+    //console.log(user);
     if(!user){
         redirect('/auth/signin');
     }
