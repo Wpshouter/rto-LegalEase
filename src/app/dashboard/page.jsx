@@ -2,10 +2,12 @@ import ChooseRole from '@/componenet/dashboard/ChooseRole';
 import { getSession } from '@/lib/user';
 import { redirect } from 'next/navigation';
 import React from 'react';
+import Loading from '../loading';
 
 const page = async() => {
     const user = await getSession();
     //console.log(user);
+    <Loading />
     if(!user){
         redirect('/auth/signin');
     }
