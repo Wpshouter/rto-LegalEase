@@ -11,8 +11,8 @@ export const fetchReQuest = async (path) => {
   const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URI}/${path}`,    {
       cache: "no-store",
     });
-  //const data = await res.json();
-  return  [];
+  const data = await res.json();
+  return data || [];
 };
 export const securefetchReQuest = async (path) => {
    
