@@ -14,7 +14,13 @@ export async function getSession() {
 
 
 export async function getSessionFulljWT() {
+   const session = await auth.api.getSession({
+      headers: await headers(),
+    });
 
+    if (!session) {
+      return []
+    }
   const response = await fetch(
     `${process.env.NEXT_PUBLIC_APP_URL}/api/auth/token`,
     {

@@ -1,4 +1,5 @@
 
+import { getAdminAnalytics } from '@/data/dataFetch';
 import {
   Users,
   Scale,
@@ -11,16 +12,9 @@ import {
 
 
 export default async function AdminOverview() {
-   async function getAdminAnalyticsssss() {
-
-  const res = await fetch(
-    `${process.env.NEXT_PUBLIC_BACKEND_URI}/api/admin/analytics`
-  );
-
-  return await res.json();
-}
+  
   const analytics =
-    await getAdminAnalyticsssss();
+    await getAdminAnalytics();
 
   return (
     <div className="space-y-8">
