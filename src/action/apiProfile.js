@@ -123,7 +123,7 @@ export async function changeUserRole(
 
 updateData();
 
-  return result;
+  return data;
 }
 export async function deleteUser(
   userId

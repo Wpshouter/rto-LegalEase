@@ -5,7 +5,9 @@ export const fetchReQuest = async (path) => {
    
     //return;
 
-  console.log(`Fetching data from: ${process.env.NEXT_PUBLIC_BACKEND_URI}/${path}` );
+  console.log(`Fetching data from: ${process.env.NEXT_PUBLIC_BACKEND_URI}/${path}`,    {
+      cache: "no-store",
+    } );
   //return;
   const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URI}/${path}`);
   const data = await res.json();
@@ -19,6 +21,7 @@ export const securefetchReQuest = async (path) => {
   //return;
   const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URI}/${path}`, 
                 {
+                       cache: "no-store",
                     headers: await authHeader()
                 }
               );

@@ -19,9 +19,11 @@ import { authClient } from '@/lib/auth-client';
 import { toast } from 'react-toastify';
 import { showToast } from '@/action/simpleFunctions';
 import { redirect } from 'next/navigation';
+import GoogleLoginButton from '@/componenet/shared/GoogleLoginButton';
+import Loading from '@/app/loading';
 
 const SignupForm =  () => {
-
+    const [loading, setLoading] = useState(false);
 
     const [role, setRole] = useState("client");
         const [formData, setFormData] = useState({
@@ -43,6 +45,7 @@ const SignupForm =  () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+        setLoading(true);
         formData.role = role
         console.log(formData);
         if(formData.password != formData.confirmPassword){
@@ -63,13 +66,16 @@ const SignupForm =  () => {
             }, {
                 onRequest: (ctx) => {
                     //show loading
+                    <Loading />
                 },
                 onSuccess: (ctx) => {
+                    setLoading(false);
                     //redirect to the dashboard or sign in page
                     showToast('SignUp Successfull', 'Success');
                     redirect('/dashboard');
                 },
                 onError: (ctx) => {
+                      setLoading(false);
                     // display the error message
                     showToast(ctx.error.message, 'error');
                     //alert(ctx.error.message);
@@ -81,7 +87,9 @@ const SignupForm =  () => {
         // Call auth.signUp.email()
         // Redirect after success
     };
-
+    if(loading){
+        return <Loading/>
+    }
     return (
         <div className="w-full max-w-md">
 
@@ -162,57 +170,7 @@ const SignupForm =  () => {
                         }
                     />
 
-                   <div>
-    <label className="block text-sm font-medium mb-3 text-default-700">
-        Choose Account Type
-    </label>
 
-    <div className="grid grid-cols-2 gap-3">
-
-        <button
-            type="button"
-            onClick={() => setRole("client")}
-            className={`
-                p-4 rounded-2xl border transition-all text-left
-                ${
-                    role === "client"
-                        ? "border-warning bg-warning/10"
-                        : "border-divider bg-content2"
-                }
-            `}
-        >
-            <h4 className="font-semibold">
-                Client
-            </h4>
-
-            <p className="text-xs text-default-500 mt-1">
-                Hire lawyers and manage cases.
-            </p>
-        </button>
-
-        <button
-            type="button"
-            onClick={() => setRole("lawyer")}
-            className={`
-                p-4 rounded-2xl border transition-all text-left
-                ${
-                    role === "lawyer"
-                        ? "border-warning bg-warning/10"
-                        : "border-divider bg-content2"
-                }
-            `}
-        >
-            <h4 className="font-semibold">
-                Lawyer
-            </h4>
-
-            <p className="text-xs text-default-500 mt-1">
-                Publish services and get hired.
-            </p>
-        </button>
-
-    </div>
-</div>
 
                     <Button
                         type="submit"
@@ -225,13 +183,9 @@ const SignupForm =  () => {
 
                  <div className="divider">OR</div>
 
-                    <Button
-                        variant="bordered"
-                        size="lg"
-                        className="w-full"
-                    >
-                        Continue with Google
-                    </Button>
+            
+
+                    <GoogleLoginButton setLoading={setLoading} />
 
                     <p className="text-center text-sm text-default-500">
                         Already have an account?{' '}

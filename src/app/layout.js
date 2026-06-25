@@ -3,6 +3,7 @@ import "./globals.css";
 import LegalNav from "@/componenet/shared/LegalNav";
 import Footer from "@/componenet/shared/Footer";
 import { ToastContainer } from "react-toastify";
+import DarkLightToggle from "@/componenet/shared/DarkLightToggle";
 
 
 const geistSans = Geist({
@@ -39,7 +40,7 @@ export default function RootLayout({ children }) {
       className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
     >
       <body className={`${inter.variable} ${playfair.variable} min-h-full flex flex-col`}> <LegalNav />
-      {children}<Footer/>  <ToastContainer /></body>
+      {children}<Footer/>  <ToastContainer /> <DarkLightToggle /> </body>
 
     </html>
   );

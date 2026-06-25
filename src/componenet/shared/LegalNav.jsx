@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { Button, Input } from "@heroui/react";
 import { Search, Scale, Menu, User } from "lucide-react";
 import { authClient } from "@/lib/auth-client";
@@ -9,6 +9,7 @@ import { SlLogout } from "react-icons/sl";
 import { useState } from "react";
 
 const LegalNav = () => {
+  const router = useRouter();
   const [mobileOpen, setMobileOpen] = useState(false);
   const pathname = usePathname();
   const { data: session, isPending } =  authClient.useSession();
@@ -92,7 +93,8 @@ const LegalNav = () => {
             { isPending ? <span className="loading loading-spinner text-success"></span> :
                         (session) ? 
                         <div className='flex gap-3 items-center'>   
-                        <button onClick={async () => {  await authClient.signOut() }} className='btn btn-primary btn-outline text-white shadow-sm border-1'>
+                        <button onClick={async () => {  await authClient.signOut();       router.push("/auth/signin");
+    router.refresh(); }} className='btn btn-primary btn-outline text-primary shadow-sm border-1'>
                         <SlLogout className='text-[20px]'/>
                             Logout
                         </button>
@@ -221,7 +223,8 @@ const LegalNav = () => {
             await authClient.signOut();
 
             setMobileOpen(false);
-
+            router.push("/auth/signin");
+    router.refresh();
           }}
         >
           <SlLogout />

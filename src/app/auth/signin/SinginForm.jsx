@@ -18,9 +18,12 @@ import {
 import { authClient } from '@/lib/auth-client';
 import { redirect, useRouter } from "next/navigation";
 import { showToast } from '@/action/simpleFunctions';
+import Loading from '@/app/loading';
+import GoogleLoginButton from '@/componenet/shared/GoogleLoginButton';
 
 
 const SigninForm = () => {
+    const [loading, setLoading] = useState(false);
     const router = useRouter();
     const [formData, setFormData] = useState({
         email: '',
@@ -31,6 +34,7 @@ const SigninForm = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
 
+        setLoading(true);
         console.log(formData);
         const { data, error } = await authClient.signIn.email({
         /**
@@ -55,7 +59,7 @@ const SigninForm = () => {
     //   if (!user) {
     //         redirect('/auth/signin');
     //   }
-
+    setLoading(false);
       if (user.role === "lawyer" || user.role === "admin") {
             redirect('/dashboard');
       } //else {
@@ -64,6 +68,7 @@ const SigninForm = () => {
     },
 
     onError: (ctx) => {
+            setLoading(false);
     showToast(ctx.error.message, 'error');
       //alert(ctx.error.message);
     },
@@ -74,7 +79,7 @@ const SigninForm = () => {
         // Redirect based on role
         console.log(data, error);
     };
-
+    if(loading) return <Loading />
     return (
         <div className="w-full max-w-md">
 
@@ -166,13 +171,7 @@ const SigninForm = () => {
 
                         <div className="divider">OR</div>
 
-                    <Button
-                        variant="bordered"
-                        size="lg"
-                        className="w-full"
-                    >
-                        Continue with Google
-                    </Button>
+                   <GoogleLoginButton setLoading={setLoading} />
 
                     <p className="text-center text-sm text-default-500">
                         Don't have an account?{' '}

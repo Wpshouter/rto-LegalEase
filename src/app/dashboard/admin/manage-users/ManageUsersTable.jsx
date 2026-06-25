@@ -202,7 +202,7 @@ export default function ManageUsersTable({
 
                         <div className="flex flex-wrap gap-8">
 
-                          <select
+                          <select defaultValue=""
                             className="select select-bordered select-sm grid item-center justify-center max-w-[120px]"
                             value={
                               user.role
@@ -217,7 +217,7 @@ export default function ManageUsersTable({
                               )
                             }
                           >
-                            <option selected value="">
+                            <option  value="">
                               Select to chnage
                             </option>
                             <option value="client">

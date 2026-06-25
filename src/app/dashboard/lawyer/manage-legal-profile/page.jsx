@@ -11,7 +11,7 @@ import {
   BriefcaseBusinessIcon,
 } from "lucide-react";
 import { showToast, uploadToImgBB } from "@/action/simpleFunctions";
-import { createProfile } from "@/action/apiProfile";
+import { createProfile, updateData } from "@/action/apiProfile";
 import { authClient } from "@/lib/auth-client";
 import FormLoader from "@/componenet/shared/FormLoader";
 import LawyerCard from "@/componenet/shared/LawyerCard";
@@ -101,7 +101,7 @@ useEffect(() => {
     const file = e.target.files?.[0];
 
     if (!file) return;
-
+    console.log('kimage chnaged');
     setFormData((prev) => ({
       ...prev,
       image: file,
@@ -133,9 +133,7 @@ useEffect(() => {
     newErrors.bio = "Professional bio is required";
   }
 
-  if (!formData.image && !formData.imageUrl) {
-    newErrors.image = "Profile image is required";
-  }
+
 
   setErrors(newErrors);
 
@@ -150,13 +148,14 @@ useEffect(() => {
     let imageUrl = "";
       setSaving(true);
     const {image, imagePreview, ...filteredformdata} = formData;
-    
+        console.log(formData.image)
     if (formData.image) {
       imageUrl = await uploadToImgBB(
         formData.image
       );
       
     }
+
     else if(formData.imageUrl){
       imageUrl = formData.imageUrl;
     }
@@ -181,6 +180,7 @@ useEffect(() => {
       setSaving(false);
     if(res.acknowledged){
       showToast('Legal Profile Updated', 'success');
+      updateData();
     }
     else{
       showToast('Something Went Wrong', 'error');
